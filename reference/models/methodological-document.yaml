@@ -1,0 +1,48 @@
+title: methodological-document
+x-stoplight:
+  id: 1k9rb5b18goae
+type: object
+examples:
+  - id: 0
+    name: string
+    organization:
+      id: 0
+      name: string
+    posted_at: string
+    file: string
+    direction:
+      id: 0
+      name: string
+    requisites: string
+    is_acquainted: 0
+description: Методический документ
+properties:
+  id:
+    type: integer
+    description: ID
+    readOnly: true
+  name:
+    type: string
+    description: Название
+  organization:
+    $ref: ./organization.yaml
+    description: Организация
+  posted_at:
+    type: string
+    description: Дата размещения
+  file:
+    type: string
+    description: Ссылка на файл
+  direction:
+    $ref: ./direction.yaml
+    description: Направление
+  requisites:
+    type: string
+    description: Реквизиты документа
+  is_acquainted:
+    type: integer
+    description: Ознакомление
+    minimum: 0
+    maximum: 1
+    example: 0
+    default: 0

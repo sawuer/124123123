@@ -1,0 +1,390 @@
+openapi: 3.1.0
+x-stoplight:
+  id: hu7xo3asdaskq
+info:
+  title: Заявки на анализ исходного кода
+  description: API для заявок на анализ исходного кода
+  version: '1.0'
+  contact:
+    name: Абдурайимов Эльмар Нариманович
+    email: elmar.abdurayimov@innostage-group.ru
+servers:
+  - url: 'http://127.0.0.1/api'
+    description: test
+  - url: 'http://10.70.41.64/api'
+    description: dev
+paths:
+  /enquiry-code-analysis:
+    get:
+      summary: indexEnquiryCodeAnalysis
+      tags:
+        - enquiry-code-analysis
+      responses:
+        '200':
+          description: Список заявок на анализ исходного кода
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - properties:
+                      data:
+                        type: array
+                        items:
+                          $ref: ../models/enquiry-code-analysis.yaml
+                  - $ref: ../models/components/pagination.yaml
+                type: object
+              examples:
+                Example 1:
+                  value:
+                    data:
+                      - request_id: 0
+                        initiator:
+                          id: 0
+                          name: string
+                          last_name: string
+                          second_name: string
+                          phone: string
+                          email: string
+                        programming_language:
+                          id: 0
+                          name: string
+                        file_name: string
+                        description: string
+                        status: В работе
+                        created_at: string
+                        is_editable: 0
+                        result: string
+                        result_author_id: 0
+                        result_created_at: '2021-01-22 11:39:10'
+                    current_page: 0
+                    last_page: 0
+                    per_page: 0
+          headers: {}
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: ../models/errors/error-401.yaml
+              examples: {}
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: ../models/errors/error-500.yaml
+              examples: {}
+      operationId: indexEnquiryCodeAnalysis
+      description: Получение всех заявок на анализ исходного кода
+      parameters:
+        - schema:
+            type: string
+          in: query
+          name: search
+          description: Поисковая строка
+        - schema:
+            type: integer
+          in: query
+          name: initiator_id
+          description: Идентификатор инициатора
+        - schema:
+            type: string
+            pattern: '^\d{4}-\d{2}-\d{2}$'
+            format: date
+          in: query
+          name: created_at_from
+          description: Дата создания - начало периода
+        - schema:
+            type: string
+            pattern: '^\d{4}-\d{2}-\d{2}$'
+            format: date
+          in: query
+          name: created_at_to
+          description: Дата создания - конец периода
+        - schema:
+            type: string
+            enum:
+              - IN_JOB
+              - DONE
+              - DONE_WITH_ERROR
+              - ARCHIVE
+              - RESULT_RECEIVING
+          in: query
+          name: status
+          description: Ознакомление
+        - schema:
+            type: integer
+            minimum: 10
+          in: query
+          name: per_page
+          description: Кол-во элементов на странице
+        - schema:
+            type: integer
+            minimum: 1
+          in: query
+          name: page
+          description: Номер страницы
+        - schema:
+            type: string
+            default: file_name
+            enum:
+              - id
+              - file_name
+              - initiator_id
+              - programming_language_id
+              - status
+              - created_at
+              - is_editable
+          in: query
+          name: sort_field
+          description: Колонка для сортировки
+        - schema:
+            type: string
+            enum:
+              - asc
+              - desc
+            default: asc
+          in: query
+          name: sort_order
+          description: Направление сортировки
+      security:
+        - login: []
+    parameters: []
+    post:
+      summary: storeEnquiryCodeAnalysis
+      operationId: storeEnquiryCodeAnalysis
+      responses:
+        '200':
+          description: Заявка создана
+          content:
+            application/json:
+              schema:
+                $ref: ../models/enquiry-code-analysis.yaml
+              examples: {}
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: ../models/errors/error-401.yaml
+              examples: {}
+        '422':
+          description: Unprocessable entity
+          content:
+            application/json:
+              schema:
+                $ref: ../models/errors/error-422.yaml
+              examples: {}
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: ../models/errors/error-500.yaml
+              examples: {}
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                programming_language_id:
+                  type: integer
+                  description: ID языка программирования
+                file_name:
+                  type: string
+                  maxLength: 128
+                  description: Название файла
+              required:
+                - programming_language_id
+                - file_name
+            examples:
+              Example 1:
+                value:
+                  programming_language_id: 1
+                  file_name: string
+        description: ''
+      description: Создание заявки на анализ исходного кода
+      tags:
+        - enquiry-code-analysis
+  /enquiry-code-analysis/initiators:
+    get:
+      summary: indexEnquiryCodeAnalysisInitiators
+      tags:
+        - enquiry-code-analysis
+      responses:
+        '200':
+          description: Список инициаторов заявок на анализ исходного кода
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: ../models/short-user.yaml
+              examples:
+                Example 1:
+                  value:
+                    - id: 0
+                      name: string
+                      last_name: string
+                      second_name: string
+                      phone: string
+                      email: string
+          headers: {}
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: ../models/errors/error-401.yaml
+              examples: {}
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: ../models/errors/error-500.yaml
+              examples: {}
+      operationId: indexEnquiryCodeAnalysisInitiators
+      description: Получение всех инициаторов заявок на анализ исходного кода
+      parameters: []
+      security:
+        - login: []
+    parameters: []
+  '/enquiry-code-analysis/{id}':
+    get:
+      summary: showEnquiryCodeAnalysis
+      responses:
+        '200':
+          description: Заявка найдена
+          content:
+            application/json:
+              schema:
+                $ref: ../models/enquiry-code-analysis.yaml
+              examples:
+                Example 1:
+                  value:
+                    request_id: 0
+                    initiator:
+                      id: 0
+                      name: string
+                      last_name: string
+                      second_name: string
+                      phone: string
+                      email: string
+                    programming_language:
+                      id: 0
+                      name: string
+                    file_name: string
+                    description: string
+                    status: В работе
+                    created_at: string
+                    is_editable: 0
+                    result: string
+                    result_author_id: 0
+                    result_created_at: '2021-01-22 11:39:10'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: ../models/errors/error-401.yaml
+              examples: {}
+        '404':
+          description: Not found
+          content:
+            application/json:
+              schema:
+                $ref: ../models/errors/error-404.yaml
+              examples: {}
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: ../models/errors/error-500.yaml
+              examples: {}
+      operationId: showEnquiryCodeAnalysis
+      description: Получение заявки на анализ потенциально исходного кода по Id
+      parameters: []
+      security:
+        - login: []
+      tags:
+        - enquiry-code-analysis
+    parameters:
+      - schema:
+          type: string
+        name: id
+        in: path
+        required: true
+        description: ID заявки на анализ исходного кода
+    patch:
+      summary: updateEnquiryCodeAnalysis
+      operationId: updateEnquiryCodeAnalysis
+      responses:
+        '200':
+          description: Комментарий оставлен к заявке
+          content:
+            application/json:
+              schema:
+                $ref: ../models/enquiry-code-analysis.yaml
+              examples: {}
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: ../models/errors/error-401.yaml
+              examples: {}
+        '404':
+          description: Not found
+          content:
+            application/json:
+              schema:
+                $ref: ../models/errors/error-404.yaml
+              examples: {}
+        '422':
+          description: Unprocessable entity
+          content:
+            application/json:
+              schema:
+                $ref: ../models/errors/error-422.yaml
+              examples: {}
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: ../models/errors/error-500.yaml
+              examples: {}
+      description: Обновление заявки на анализ исходного кода по Id
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                result:
+                  type: string
+                  description: Результат анализа
+              required:
+                - result
+            examples:
+              Example 1:
+                value:
+                  result: string
+        description: Результат анализа
+      tags:
+        - enquiry-code-analysis
+components:
+  parameters: {}
+  securitySchemes:
+    login:
+      type: http
+      scheme: basic
+      description: Базовая авторизация через битрикс. Нужна специальная доработка.
+  requestBodies: {}
+security:
+  - login: []
+tags:
+  - name: enquiry-code-analysis

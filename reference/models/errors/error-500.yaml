@@ -1,0 +1,14 @@
+title: 500-internal-server-error
+type: object
+description: Внутренняя ошибка
+properties:
+  message:
+    description: Сообщение об ошибке
+    type: string
+    example: Не авторизован
+  code:
+    type: integer
+    minimum: 1
+    multipleOf: 500
+    description: Код ошибки
+    example: 500

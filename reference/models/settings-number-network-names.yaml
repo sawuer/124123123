@@ -1,0 +1,16 @@
+title: settings-number-network-names
+type: object
+description: Описание полей количества строк IP и доменных имен
+properties:
+  number_of_ip_addresses:
+    type: integer
+    description: Количество IP адресов
+    example: 10
+  number_of_balancer_ip_addresses:
+    type: integer
+    description: Количество IP адресов балансировщиков
+    example: 10
+  number_of_domain_names:
+    type: integer
+    description: Количество доменных имен
+    example: 10

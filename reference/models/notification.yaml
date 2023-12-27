@@ -1,0 +1,32 @@
+title: notification
+x-stoplight:
+  id: mjsytpss368o7
+type: object
+description: Уведомления
+examples:
+  - id: 1
+    title: string
+    content: string
+    created_at: '2019-08-24 14:15:22Z'
+properties:
+  id:
+    type: integer
+    minimum: 1
+    multipleOf: 1
+    description: Id уведомления
+    readOnly: true
+  title:
+    type: string
+    description: Заголовок
+    readOnly: true
+  content:
+    type: string
+    description: Текст уведомления
+    maxLength: 256
+    minLength: 1
+    readOnly: true
+  created_at:
+    type: string
+    description: Дата
+    format: date-time
+    pattern: '/^(\d{4})-(\d{2})-(\d{2}) (\d{2}):(\d{2}):(\d{2})$/'

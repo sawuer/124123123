@@ -1,0 +1,21 @@
+# https://github.com/evilmartians/lefthook/blob/master/docs/configuration.md
+# проверить работу `lefthook run pre-commit`
+
+pre-commit:
+  parallel: true
+  commands:
+    lint:api:
+      run: npm run lint:api
+    lintfix:
+      # Если проверять только то, чо идёт в комит, то будет проблема при сборке на окружении,
+      # если код пришёл некорректный (например от того, кто не ставил npm зависимости)
+      run: >
+        npm run lintfix &&
+        git add {staged_files}
+    test:coverage:
+      run: npm run test:coverage
+#commit-msg:
+#  parallel: false
+#  commands:
+#   commitlint:
+#     run: npm exec commitlint -- --edit

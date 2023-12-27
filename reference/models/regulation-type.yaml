@@ -1,0 +1,16 @@
+title: regulation-type
+x-stoplight:
+  id: xqwdq9fvh1iim
+type: object
+examples:
+  - id: 0
+    name: string
+description: Тип НПА
+properties:
+  id:
+    type: integer
+    description: ID
+    readOnly: true
+  name:
+    type: string
+    description: Название

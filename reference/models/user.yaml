@@ -1,0 +1,118 @@
+title: user
+x-stoplight:
+  id: mjsytphn368o7
+type: object
+description: Модель личного кабинета
+examples:
+  - id: 1
+    last_name: Волков
+    name: Геннадий
+    middle_name: Федорович
+    company: InnoStage
+    department: Бизнес-решения
+    position: Лучший сотрудник
+    phone: string
+    email: user@example.com
+    additional_info: Любит животных
+    role: Администратор
+    date_register: '18.08.2023 12:20:25'
+    photo: /upload/main/9df/hvxt9k9mcjp0xc7vk4kbrrqdbn49baxx.png
+    supervised_organizations:
+      - id: 1
+        name: Международная организация
+properties:
+  id:
+    type: integer
+    minimum: 1
+    multipleOf: 1
+    description: Id пользователя
+    readOnly: true
+  last_name:
+    type: string
+    description: Фамилия
+    example: Волков
+    maxLength: 50
+    minLength: 0
+    readOnly: true
+  name:
+    type: string
+    description: Имя
+    example: Геннадий
+    minLength: 0
+    maxLength: 50
+    readOnly: true
+  middle_name:
+    type: string
+    description: Отчество
+    maxLength: 50
+    minLength: 0
+    example: Федорович
+  company:
+    type: string
+    description: Компания
+    minLength: 0
+    example: InnoStage
+    readOnly: true
+  department:
+    type: string
+    description: Департамент
+    minLength: 0
+    example: Бизнес-решения
+    readOnly: true
+  position:
+    type: string
+    description: Должность
+    example: Лучший сотрудник
+    minLength: 0
+    readOnly: true
+  phone:
+    type: string
+    description: Телефон
+    readOnly: true
+  email:
+    type: string
+    format: email
+    description: e-mail
+    readOnly: true
+  additional_info:
+    type: string
+    description: Дополнительная информация
+    maxLength: 256
+    minLength: 0
+    example: Любит животных
+    readOnly: true
+  role:
+    type: string
+    description: Роль на портале
+    example: Администратор
+    readOnly: true
+  date_register:
+    type: string
+    example: '18.08.2023 12:20:25'
+    description: Дата регистрации
+    pattern: '^\d{2}.\d{2}.\d{4} \d{2}:\d{2}:\d{2}$'
+    readOnly: true
+  photo:
+    type: string
+    description: Фото в личном кабинете
+    minLength: 0
+    example: /upload/main/9df/hvxt9k9mcjp0xc7vk4kbrrqdbn49baxx.png
+    readOnly: true
+  supervised_organizations:
+    type: array
+    description: Организации в зоне ответственности
+    items:
+      description: Организация
+      type: object
+      properties:
+        id:
+          type: integer
+          minimum: 1
+          multipleOf: 1
+          description: Id организации
+          readOnly: true
+        name:
+          type: string
+          description: Наименование организации
+          readOnly: true
+    readOnly: true

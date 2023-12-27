@@ -1,0 +1,16 @@
+title: direction
+x-stoplight:
+  id: 6rv7rqneucntg
+type: object
+examples:
+  - id: 0
+    name: string
+description: Направление
+properties:
+  id:
+    type: integer
+    description: ID
+    readOnly: true
+  name:
+    type: string
+    description: Название

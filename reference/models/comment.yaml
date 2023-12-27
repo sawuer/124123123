@@ -1,0 +1,19 @@
+title: comment
+type: object
+description: Описание полей комментария
+properties:
+  id:
+    type: integer
+    description: Формируется автоматически (сквозной номер)
+    example: 1
+  author:
+    $ref: ./short-user.yaml
+    description: Автор комментария
+  text:
+    type: string
+    description: Текст комментария
+    example: Пример текста комментария
+  created_at:
+    type: string
+    description: Дата создания
+    example: '24.01.2021 11:39:10'

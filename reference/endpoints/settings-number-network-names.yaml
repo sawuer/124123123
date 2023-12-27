@@ -1,0 +1,143 @@
+openapi: 3.1.0
+info:
+  title: Изменение количества строк IP и доменных имен
+  description: API для изменения количества строк IP и доменных имен
+  version: '1.0'
+  contact:
+    name: Ульев Андрей Дмитриевич
+    email: Andrey.Ulev@innostage-group.ru
+servers:
+  - url: 'http://127.0.0.1/api'
+    description: test
+  - url: 'http://10.70.41.64/api'
+    description: dev
+paths:
+  /settings-number-network-names:
+    get:
+      operationId: indexSettingsNumberNetworkNames
+      summary: indexSettingsNumberNetworkNames
+      tags:
+        - settings-number-network-names
+      description: Получение количества строк IP и доменных имен
+      responses:
+        '200':
+          description: Список количества строк IP и доменных имен
+          content:
+            application/json:
+              schema:
+                $ref: ../models/settings-number-network-names.yaml
+              examples:
+                Example 1:
+                  value:
+                    number_of_ip_addresses: 10
+                    number_of_balancer_ip_addresses: 10
+                    number_of_domain_names: 10
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: ../models/errors/error-401.yaml
+              examples: null
+        '422':
+          description: Unprocessable Entity
+          content:
+            application/json:
+              schema:
+                $ref: ../models/errors/error-422.yaml
+              examples: null
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: ../models/errors/error-500.yaml
+              examples: null
+    patch:
+      summary: updateSettingsNumberNetworkNames
+      operationId: updateSettingsNumberNetworkNames
+      tags:
+        - settings-number-network-names
+      description: Обновление количества строк IP и доменных имен
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                number_of_ip_addresses:
+                  type: integer
+                  description: Количество IP адресов
+                number_of_balancer_ip_addresses:
+                  type: integer
+                  description: Количество IP адресов балансировщиков
+                number_of_domain_names:
+                  type: integer
+                  description: Количество Доменных имен
+      responses:
+        '200':
+          description: Заявка создана
+          content:
+            application/json:
+              schema:
+                $ref: ../models/enquiry-scanning-vulnerability.yaml
+              examples:
+                Example 1:
+                  value:
+                    id: 1
+                    status: Черновик
+                    initiator:
+                      id: 0
+                      name: string
+                      last_name: string
+                      second_name: string
+                      phone: string
+                      email: string
+                    created_at: '22.01.2021 11:39:10'
+                    information_system: Наименование информационной системы
+                    ip_addresses:
+                      - 192.168.0.1
+                    balancer_ip_addresses:
+                      - 192.168.0.1
+                    domains:
+                      - example.com
+                    scanning_redcheck_started_at: 22.01.2021
+                    scanning_redcheck_ended_at: 24.01.2021
+                    scanner: Redcheck
+                    scanning_redcheck_period: Ежемесячно
+                    proof:
+                      - name: avatar.png
+                        url: upload/iblock/8d1/cb0j2yhe0afsi77vflncl9y22zqcfyg9.jpg
+                    comments:
+                      - id: 1
+                        author:
+                          id: 0
+                          name: string
+                          last_name: string
+                          second_name: string
+                          phone: string
+                          email: string
+                        text: Пример текста комментария
+                        created_at: '24.01.2021 11:39:10'
+                    job_id: 1
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: ../models/errors/error-401.yaml
+              examples: null
+        '422':
+          description: Unprocessable Entity
+          content:
+            application/json:
+              schema:
+                $ref: ../models/errors/error-422.yaml
+              examples: null
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: ../models/errors/error-500.yaml
+              examples: null

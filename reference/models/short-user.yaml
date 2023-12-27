@@ -1,0 +1,37 @@
+title: short-user
+x-stoplight:
+  id: 3xcfw7cerfl7s
+type: object
+description: Краткое описание пользователя
+examples:
+  - id: 0
+    name: string
+    last_name: string
+    second_name: string
+    phone: string
+    email: string
+properties:
+  id:
+    type: integer
+    description: ID
+    readOnly: true
+  name:
+    type: string
+    description: Имя
+    readOnly: true
+  last_name:
+    type: string
+    description: Фамилия
+  second_name:
+    type: string
+    description: Отчество
+  phone:
+    type: string
+    description: Телефон
+    readOnly: true
+  email:
+    type: string
+    description: e-mail
+    readOnly: true
+required:
+  - id

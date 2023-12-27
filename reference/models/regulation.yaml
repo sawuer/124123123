@@ -1,0 +1,50 @@
+title: regulation
+x-stoplight:
+  id: 2d3g51pu96d73
+type: object
+examples:
+  - id: 0
+    regulation_type:
+      id: 0
+      name: string
+    organization:
+      id: 0
+      name: string
+    name: string
+    approval_date: ГГГГ-ММ-ДД
+    effective_date: ГГГГ-ММ-ДД
+    file: string
+    link: string
+description: НПА
+properties:
+  id:
+    type: integer
+    description: ID
+    readOnly: true
+  regulation_type:
+    $ref: ./regulation-type.yaml
+    description: Тип НПА
+  organization:
+    $ref: ./organization.yaml
+    description: Организация
+  name:
+    type: string
+    description: Название
+  approval_date:
+    type: string
+    description: Дата утверждения
+  effective_date:
+    type: string
+    description: Дата введения в действие
+  file:
+    type: string
+    description: Ссылка на файл
+  link:
+    type: string
+    description: Ссылка
+required:
+  - id
+  - regulation_type
+  - name
+  - approval_date
+  - effective_date

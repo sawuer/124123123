@@ -1,0 +1,18 @@
+title: programming-language
+x-stoplight:
+  id: mjsytpss368o7
+type: object
+description: Язык программирования
+examples:
+  - id: 0
+    name: string
+properties:
+  id:
+    type: integer
+    description: ID языка программирования
+    readOnly: true
+  name:
+    type: string
+    example: Apex
+    description: Название языка программирования
+    readOnly: true

@@ -1,0 +1,140 @@
+title: bulletin
+x-stoplight:
+  id: 75wvh52frq55q
+type: object
+description: Бюллетень
+examples:
+  - id: 1
+    vulnerability_id: string
+    vulnerability_description: string
+    software_manufacturer: string
+    vulnerable_product: string
+    vulnerable_product_category: string
+    danger_level: string
+    attack_vector: string
+    possible_consequences: string
+    software_error: string
+    vulnerability_exploitation_method: string
+    user_interaction: string
+    detected_at: '18.10.2023 10:22:45'
+    last_vulnerability_updated_at: '18.10.2023 10:22:45'
+    update_availability: string
+    sources: string
+    note: string
+    pdf_file: string
+    created_at: '18.10.2023 10:22:45'
+properties:
+  id:
+    type: integer
+    minimum: 1
+    multipleOf: 1
+    description: Id
+    readOnly: true
+  vulnerability_id:
+    type: string
+    maxLength: 256
+    minLength: 1
+    description: Идентификатор уязвимости
+    readOnly: true
+  vulnerability_description:
+    type: string
+    maxLength: 256
+    minLength: 1
+    description: Описание уязвимости
+    readOnly: true
+  software_manufacturer:
+    type: string
+    maxLength: 256
+    minLength: 1
+    description: Производитель ПО
+    readOnly: true
+  vulnerable_product:
+    type: string
+    maxLength: 256
+    minLength: 1
+    description: Уязвимый продукт
+    readOnly: true
+  vulnerable_product_category:
+    type: string
+    maxLength: 256
+    minLength: 1
+    description: Категория уязвимого продукта
+    readOnly: true
+  danger_level:
+    type: string
+    maxLength: 256
+    minLength: 1
+    description: Уровень опасности
+    readOnly: true
+  attack_vector:
+    type: string
+    maxLength: 256
+    minLength: 1
+    description: Вектор атаки
+    readOnly: true
+  possible_consequences:
+    type: string
+    maxLength: 256
+    minLength: 1
+    description: Возможные последствия
+    readOnly: true
+  software_error:
+    type: string
+    maxLength: 256
+    minLength: 1
+    description: Программная ошибка
+    readOnly: true
+  vulnerability_exploitation_method:
+    type: string
+    maxLength: 256
+    minLength: 1
+    description: Метод эксплуатации уязвимости
+    readOnly: true
+  user_interaction:
+    type: string
+    maxLength: 256
+    minLength: 1
+    description: Взаимодействие с пользователем
+    readOnly: true
+  detected_at:
+    type: string
+    maxLength: 256
+    minLength: 1
+    description: Дата выявления
+    example: '18.10.2023 10:22:45'
+    readOnly: true
+  last_vulnerability_updated_at:
+    type: string
+    maxLength: 256
+    minLength: 1
+    description: Дата последнего обновления информации об уязвимости
+    example: '18.10.2023 10:22:45'
+    readOnly: true
+  update_availability:
+    type: string
+    maxLength: 256
+    minLength: 1
+    description: Наличие обновления
+    readOnly: true
+  sources:
+    type: string
+    maxLength: 256
+    minLength: 1
+    description: Источники
+    readOnly: true
+  note:
+    type: string
+    maxLength: 256
+    minLength: 1
+    description: Примечание
+    readOnly: true
+  pdf_file:
+    type: string
+    maxLength: 256
+    minLength: 1
+    description: Ссылка на PDF файл
+    readOnly: true
+  created_at:
+    type: string
+    example: '18.10.2023 10:22:45'
+    description: Создан

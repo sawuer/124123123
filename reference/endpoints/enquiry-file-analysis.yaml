@@ -1,0 +1,407 @@
+openapi: 3.1.0
+info:
+  title: Заявки на анализ потенциально вредоносного файла
+  description: API для заявок на анализ потенциально вредоносного файла
+  version: '1.0'
+  contact:
+    name: Ульев Андрей Дмитриевич
+    email: Andrey.Ulev@innostage-group.ru
+servers:
+  - url: 'http://127.0.0.1/api'
+    description: test
+  - url: 'http://10.70.41.64/api'
+    description: dev
+paths:
+  '/enquiry-file-analysis/{id}':
+    parameters:
+      - schema:
+          type: integer
+        name: id
+        in: path
+        required: true
+        description: Id заявки на анализ потенциально вредоносного файла
+    get:
+      operationId: showEnquiryFileAnalysis
+      summary: showEnquiryFileAnalysis
+      tags:
+        - enquiry-file-analysis
+      description: Получение заявки на анализ потенциально вредоносного файла по Id
+      responses:
+        '200':
+          description: Заявка найдена
+          content:
+            application/json:
+              schema:
+                $ref: ../models/enquiry-file-analysis.yaml
+              examples:
+                Example 1:
+                  value:
+                    id: 1
+                    status: Выполнена
+                    initiator:
+                      id: 0
+                      name: string
+                      last_name: string
+                      second_name: string
+                      phone: string
+                      email: string
+                    filename: ЛоготипБДУ.svg
+                    created_at: '2021-01-22 11:39:10'
+                    description: описание
+                    analysis_results: Вредоносная активность не обнаружена
+                    is_editable: false
+                    result_author:
+                      id: 0
+                      name: string
+                      last_name: string
+                      second_name: string
+                      phone: string
+                      email: string
+                    received_at: '2021-01-22 11:39:10'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: ../models/errors/error-401.yaml
+              examples: null
+        '404':
+          description: Not found
+          content:
+            application/json:
+              schema:
+                $ref: ../models/errors/error-404.yaml
+              examples: null
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: ../models/errors/error-500.yaml
+              examples: null
+    patch:
+      summary: updateEnquiryFileAnalysis
+      operationId: updateEnquiryFileAnalysis
+      tags:
+        - enquiry-file-analysis
+      description: Обновление заявки на анализ потенциально вредоносного файла
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                comment_from_employee:
+                  type: string
+            examples:
+              Example 1:
+                value:
+                  comment_from_employee: string
+      responses:
+        '200':
+          description: Заявка обновлена
+          content:
+            application/json:
+              schema:
+                $ref: ../models/enquiry-file-analysis.yaml
+              examples:
+                Example 1:
+                  value:
+                    id: 1
+                    status: Выполнена
+                    initiator:
+                      id: 0
+                      name: string
+                      last_name: string
+                      second_name: string
+                      phone: string
+                      email: string
+                    filename: ЛоготипБДУ.svg
+                    created_at: '2021-01-22 11:39:10'
+                    description: описание
+                    analysis_results: Вредоносная активность не обнаружена
+                    is_editable: false
+                    result_author:
+                      id: 0
+                      name: string
+                      last_name: string
+                      second_name: string
+                      phone: string
+                      email: string
+                    received_at: '2021-01-22 11:39:10'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: ../models/errors/error-401.yaml
+              examples: null
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: ../models/errors/error-403.yaml
+              examples: null
+        '404':
+          description: Not found
+          content:
+            application/json:
+              schema:
+                $ref: ../models/errors/error-404.yaml
+              examples: null
+        '422':
+          description: Unprocessable Entity
+          content:
+            application/json:
+              schema:
+                $ref: ../models/errors/error-422.yaml
+              examples: null
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: ../models/errors/error-500.yaml
+              examples: null
+  /enquiry-file-analysis:
+    get:
+      operationId: indexEnquiryFileAnalysis
+      summary: indexEnquiryFileAnalysis
+      tags:
+        - enquiry-file-analysis
+      description: Получение списка заявок на анализ потенциально вредоносного файла
+      parameters:
+        - schema:
+            type: string
+          in: query
+          name: search
+          description: Поисковая строка
+        - schema:
+            type: integer
+            minimum: 10
+          in: query
+          name: per_page
+          description: Кол-во элементов на странице
+        - schema:
+            type: integer
+            minimum: 1
+          in: query
+          name: page
+          description: Номер страницы
+        - schema:
+            type: array
+            items:
+              type: string
+              example: WORKING
+              enum:
+                - WORKING
+                - DONE
+                - ERROR
+                - ARCHIVE
+          in: query
+          name: status
+          description: Статус
+        - schema:
+            type: integer
+            minimum: 1
+            example: 123
+          in: query
+          name: initiator_id
+          description: Идентификатор инициатора
+        - schema:
+            type: string
+            format: date
+            pattern: '^\d{4}-\d{2}-\d{2}$'
+            example: '2023-01-01'
+          in: query
+          name: created_at_from
+          description: Дата создания - начало периода
+        - schema:
+            type: string
+            format: date
+            pattern: '^\d{4}-\d{2}-\d{2}$'
+            example: '2023-01-02'
+          in: query
+          name: created_at_to
+          description: Дата создания - конец периода
+        - schema:
+            type: boolean
+            example: true
+          in: query
+          name: is_editable
+          description: Возможность редактирования
+        - schema:
+            type: string
+            format: date
+            pattern: '^\d{4}-\d{2}-\d{2}$'
+            example: '2023-01-01'
+          in: query
+          name: received_at_from
+          description: Получено - начало периода
+        - schema:
+            type: string
+            pattern: '^\d{4}-\d{2}-\d{2}$'
+            format: date
+            example: '2023-01-02'
+          in: query
+          name: received_at_to
+          description: Получено - конец периода
+        - schema:
+            type: string
+            enum:
+              - id
+              - status
+              - initiator_id
+              - created_at
+              - is_editable
+              - received_at
+            example: id
+          in: query
+          name: sort_field
+          description: Колонка для сортировки
+        - schema:
+            type: string
+            enum:
+              - asc
+              - desc
+            default: asc
+          in: query
+          name: sort_order
+          description: Направление сортировки
+      responses:
+        '200':
+          description: Список заявок
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - properties:
+                      data:
+                        type: array
+                        items:
+                          $ref: ../models/enquiry-file-analysis.yaml
+                  - $ref: ../models/components/pagination.yaml
+                type: object
+              examples:
+                Example 1:
+                  value:
+                    data:
+                      - id: 1
+                        status: Выполнена
+                        initiator:
+                          id: 0
+                          name: string
+                          last_name: string
+                          second_name: string
+                          phone: string
+                          email: string
+                        filename: ЛоготипБДУ.svg
+                        created_at: '2021-01-22 11:39:10'
+                        description: описание
+                        analysis_results: Вредоносная активность не обнаружена
+                        is_editable: false
+                        result_author:
+                          id: 0
+                          name: string
+                          last_name: string
+                          second_name: string
+                          phone: string
+                          email: string
+                        received_at: '2021-01-22 11:39:10'
+                    current_page: 0
+                    last_page: 0
+                    per_page: 0
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: ../models/errors/error-401.yaml
+              examples: null
+        '422':
+          description: Unprocessable Entity
+          content:
+            application/json:
+              schema:
+                $ref: ../models/errors/error-422.yaml
+              examples: null
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: ../models/errors/error-500.yaml
+              examples: null
+    post:
+      summary: storeEnquiryFileAnalysis
+      operationId: storeEnquiryFileAnalysis
+      tags:
+        - enquiry-file-analysis
+      description: Создание заявки на анализ потенциально вредоносного файла
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                filename:
+                  type: file
+                description:
+                  type: string
+                  example: текст
+              required:
+                - filename
+      responses:
+        '200':
+          description: Заявка создана
+          content:
+            application/json:
+              schema:
+                $ref: ../models/enquiry-file-analysis.yaml
+              examples:
+                Example 1:
+                  value:
+                    id: 1
+                    status: В работе
+                    initiator:
+                      id: 0
+                      name: string
+                      last_name: string
+                      second_name: string
+                      phone: string
+                      email: string
+                    filename: ЛоготипБДУ.svg
+                    created_at: '2021-01-22 11:39:10'
+                    description: описание
+                    analysis_results: Вредоносная активность не обнаружена
+                    is_editable: false
+                    result_author:
+                      id: 0
+                      name: string
+                      last_name: string
+                      second_name: string
+                      phone: string
+                      email: string
+                    received_at: '2021-01-22 11:39:10'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: ../models/errors/error-401.yaml
+              examples: null
+        '422':
+          description: Unprocessable Entity
+          content:
+            application/json:
+              schema:
+                $ref: ../models/errors/error-422.yaml
+              examples: null
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: ../models/errors/error-500.yaml
+              examples: null

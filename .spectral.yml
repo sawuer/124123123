@@ -1,0 +1,86 @@
+functions:
+  - no-incorrect-int
+  - no-incorrect-models
+functionsDir: ./linters
+extends: 'spectral:oas'
+rules:
+  operation-description: info
+  operation-success-response: error
+  operation-tag-defined: off
+  operation-tags: off
+  openapi-tags-alphabetical: off
+  oas2-host-not-example: warn
+  oas2-parameter-description: warn
+  oas3-examples-value-or-externalValue: error
+  oas3-api-servers: error
+  info-contact: error
+  info-description: error
+  oas3-schema: off
+  oas3-unused-component: off
+  operation-name-lang:
+    description: Имя операции должно содержать только английские буквы.
+    given: $.paths.[*][get,post,put,patch,delete,options]
+    severity: error
+    then:
+      field: summary
+      function: pattern
+      functionOptions:
+        match: '^[a-zA-Z]+$'
+  operation-name-format:
+    description: Значение должно быть в camelCase.
+    given: $.paths.[*][get,post,put,patch,delete,options]
+    severity: error
+    message: 'Некорректное значение"{{value}}". {{description}}'
+    then:
+      field: summary
+      function: pattern
+      functionOptions:
+        match: '^[a-z]+(?:[A-Z][a-z]+)*$'
+  server-description:
+    description: Описание сервера должно быть одним из следующих вариантов `dev`, `test` или `prod`.
+    given: $.servers.*
+    severity: error
+    message: 'Некорректное описание сервера "{{value}}". {{description}}'
+    then:
+      field: description
+      function: enumeration
+      functionOptions:
+        values:
+          - dev
+          - test
+          - prod
+  #  server-url:
+  #    description: URL сервераможет быть одним из этих значений `https://foo.bar/api` or `https://test.foo.bar/api`.
+  #    given: $.servers.*
+  #    severity: error
+  #    message: 'Некорректный URL сервера "{{value}}". {{description}}'
+  #    then:
+  #      field: url
+  #      function: enumeration
+  #      functionOptions:
+  #        values:
+  #          - https://foo.bar/api
+  #          - https://test.foo.bar/api
+  no-incorrect-models:
+    description: Модель данных может содержать только модель данных, без описания эндпоинта.
+    given: $.components.schemas
+    severity: error
+    message: 'Модель описана как эндпоинт. {{error}}'
+    then:
+      function: no-incorrect-models
+  no-incorrect-int:
+    description: Используйте `min` и `max` значения вместо использования int.
+    given: $..properties.[*][format]
+    severity: error
+    message: Некорректный формат данных int. {{error}}
+    then:
+      function: no-incorrect-int
+  file-name-format:
+    description: Название не должно начинаться с цифры.
+    given: $.components.schemas.*~
+    severity: error
+    message: 'Некорректное имя файла "{{property}}". {{description}}'
+    then:
+      function: pattern
+      functionOptions:
+        match: '^\D'

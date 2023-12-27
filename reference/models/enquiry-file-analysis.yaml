@@ -1,0 +1,51 @@
+title: enquiry-file-analysis
+type: object
+description: Описание полей заявки на анализ потенциально вредоносного файла
+properties:
+  id:
+    type: integer
+    description: Формируется автоматически (сквозной номер)
+    example: 1
+  status:
+    type: string
+    enum:
+      - В работе
+      - Выполнена
+      - Выполнена с ошибкой
+      - Архив
+    description: Статус заявки
+    example: Выполнена
+  initiator:
+    $ref: ./short-user.yaml
+    description: Инициатор
+  filename:
+    type: string
+    description: Имя проверяемого файла
+    example: ЛоготипБДУ.svg
+  created_at:
+    type: string
+    description: Дата создания
+    example: '2021-01-22 11:39:10'
+  description:
+    type: string
+    description: 'Описание файла, заполняемое пользователем'
+    nullable: true
+    example: описание
+  analysis_results:
+    type: string
+    nullable: true
+    description: Результаты анализа
+    example: Вредоносная активность не обнаружена
+  is_editable:
+    type: boolean
+    description: Доступность редактирования поля Результаты анализа
+    example: false
+  result_author:
+    $ref: ./short-user.yaml
+    description: Автор результата
+    nullable: true
+  received_at:
+    type: string
+    nullable: true
+    example: '2021-01-22 11:39:10'
+    description: Дата получения результата

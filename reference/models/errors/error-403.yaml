@@ -1,0 +1,15 @@
+title: 403-forbidden
+type: object
+description: Запрещено
+properties:
+  message:
+    description: Сообщение об ошибке
+    type: string
+    example: Не авторизован
+  code:
+    type: integer
+    minimum: 1
+    multipleOf: 403
+    description: Код ошибки
+    example: 403
+examples: []

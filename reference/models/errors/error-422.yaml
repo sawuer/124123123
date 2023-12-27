@@ -1,0 +1,14 @@
+title: 422-unprocessable-entity
+type: object
+description: Запрос не прошёл валидацию
+properties:
+  message:
+    description: Сообщение об ошибке
+    type: string
+    example: Не авторизован
+  code:
+    type: integer
+    minimum: 1
+    multipleOf: 422
+    description: Код ошибки
+    example: 422

@@ -1,0 +1,15 @@
+title: 200-success
+type: object
+description: Успешно
+properties:
+  message:
+    description: Сообщение ответа
+    type: string
+    example: Успешно
+  code:
+    type: integer
+    minimum: 1
+    multipleOf: 200
+    description: Код ответа
+    example: 200
+examples: []

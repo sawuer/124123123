@@ -1,0 +1,5012 @@
+---
+  openapi: "3.1.0"
+  x-stoplight: 
+    id: "63aiu5gx0sbnl"
+  info: 
+    title: "portal-dit-api"
+    version: "1.0"
+    summary: "vcDitAPI"
+    description: "API документация ВЦ ДИТ"
+    contact: 
+      name: "Ruslan Timurziyev"
+      email: "Ruslan.Timurziev@innostage-group.ru"
+  servers: 
+    - 
+      url: "http://10.70.41.64/api"
+  paths: 
+    /bulletins: 
+      get: 
+        summary: "indexBulletins"
+        responses: 
+          "200": 
+            description: "Список бюллетеней"
+            content: 
+              application/json: 
+                schema: 
+                  allOf: 
+                    - 
+                      properties: 
+                        data: 
+                          type: "array"
+                          items: 
+                            $ref: "#/components/schemas/bulletin"
+                    - 
+                      $ref: "#/components/schemas/pagination"
+                  type: "object"
+                  required: 
+                    - "data"
+                    - "current_page"
+                    - "last_page"
+                    - "per_page"
+                examples: 
+                  Example 1: 
+                    value: 
+                      data: 
+                        - 
+                          id: 1
+                          vulnerability_id: "string"
+                          vulnerability_description: "string"
+                          software_manufacturer: "string"
+                          vulnerable_product: "string"
+                          vulnerable_product_category: "string"
+                          danger_level: "string"
+                          attack_vector: "string"
+                          possible_consequences: "string"
+                          software_error: "string"
+                          vulnerability_exploitation_method: "string"
+                          user_interaction: "string"
+                          detected_at: "18.10.2023 10:22:45"
+                          last_vulnerability_updated_at: "18.10.2023 10:22:45"
+                          update_availability: "string"
+                          sources: "string"
+                          note: "string"
+                          pdf_file: "string"
+                          created_at: "18.10.2023 10:22:45"
+                      current_page: 0
+                      last_page: 0
+                      per_page: 0
+          "401": 
+            description: "Unauthorized"
+            content: 
+              application/json: 
+                schema: 
+                  $ref: "#/components/schemas/error-401"
+                examples: {}
+          "500": 
+            description: "Internal Server Error"
+            content: 
+              application/json: 
+                schema: 
+                  $ref: "#/components/schemas/error-500"
+                examples: {}
+        operationId: "indexBulletins"
+        description: "Получение всех бюллетеней"
+        parameters: 
+          - 
+            schema: 
+              type: "string"
+              example: "2023-10-18"
+            in: "query"
+            description: "Дата создания"
+            name: "created_at_from"
+          - 
+            schema: 
+              type: "string"
+              example: "2023-10-18"
+            in: "query"
+            name: "created_at_to"
+            description: "Дата создания"
+          - 
+            schema: 
+              type: "string"
+            in: "query"
+            name: "vulnerability_id"
+            description: "Идентификатор уязвимости"
+          - 
+            schema: 
+              type: "string"
+            in: "query"
+            name: "vulnerable_product"
+            description: "Уязвимый продукт"
+          - 
+            schema: 
+              type: "string"
+            in: "query"
+            name: "danger_level"
+            description: "Уровень опасности"
+          - 
+            schema: 
+              type: "string"
+            in: "query"
+            name: "attack_vector"
+            description: "Вектор атаки"
+          - 
+            schema: 
+              type: "string"
+            in: "query"
+            name: "update_availability"
+            description: "Наличие обновления"
+          - 
+            schema: 
+              type: "integer"
+              minimum: 10
+            in: "query"
+            name: "per_page"
+            description: "Кол-во элементов на странице"
+          - 
+            schema: 
+              type: "integer"
+              minimum: 1
+            in: "query"
+            description: "Номер страницы"
+            name: "page"
+          - 
+            schema: 
+              type: "string"
+              default: "id"
+              enum: 
+                - "id"
+                - "vulnerability_id"
+                - "vulnerability_description"
+                - "software_manufacturer"
+                - "vulnerable_product"
+                - "vulnerable_product_category"
+                - "danger_level"
+                - "attack_vector"
+                - "possible_consequences"
+                - "vulnerability_exploitation_method"
+                - "user_interaction"
+                - "detected_at"
+                - "last_vulnerability_updated_at"
+                - "update_availability"
+                - "sources"
+            in: "query"
+            name: "sort_field"
+            description: "Колонка для сортировки"
+          - 
+            schema: 
+              type: "string"
+              default: "asc"
+              enum: 
+                - "asc"
+                - "desc"
+            in: "query"
+            name: "sort_order"
+            description: "Направление сортировки"
+        security: 
+          - 
+            login: []
+        tags: 
+          - "bulletins"
+      parameters: []
+    /bulletins/{id}: 
+      parameters: 
+        - 
+          schema: 
+            type: "string"
+          name: "id"
+          in: "path"
+          required: true
+      get: 
+        summary: "showBulletin"
+        operationId: "showBulletin"
+        responses: 
+          "200": 
+            description: "Бюллетень найден"
+            content: 
+              application/json: 
+                schema: 
+                  $ref: "#/components/schemas/bulletin"
+                examples: 
+                  Example 1: 
+                    value: 
+                      id: 1
+                      vulnerability_id: "string"
+                      vulnerability_description: "string"
+                      software_manufacturer: "string"
+                      vulnerable_product: "string"
+                      vulnerable_product_category: "string"
+                      danger_level: "string"
+                      attack_vector: "string"
+                      possible_consequences: "string"
+                      software_error: "string"
+                      vulnerability_exploitation_method: "string"
+                      user_interaction: "string"
+                      detected_at: "18.10.2023 10:22:45"
+                      last_vulnerability_updated_at: "18.10.2023 10:22:45"
+                      update_availability: "string"
+                      sources: "string"
+                      note: "string"
+                      pdf_file: "string"
+                      created_at: "18.10.2023 10:22:45"
+          "401": 
+            description: "Unauthorized"
+            content: 
+              application/json: 
+                schema: 
+                  $ref: "#/components/schemas/error-401"
+                examples: {}
+          "404": 
+            description: "Not found"
+            content: 
+              application/json: 
+                schema: 
+                  $ref: "#/components/schemas/error-404"
+                examples: {}
+          "500": 
+            description: "Internal Server Error"
+            content: 
+              application/json: 
+                schema: 
+                  $ref: "#/components/schemas/error-500"
+                examples: {}
+        tags: 
+          - "bulletins"
+        description: "Просмотр бюллетеня"
+    /directions: 
+      get: 
+        summary: "indexDirections"
+        responses: 
+          "200": 
+            description: "Список направлений"
+            content: 
+              application/json: 
+                schema: 
+                  type: "object"
+                  properties: 
+                    data: 
+                      type: "array"
+                      items: 
+                        $ref: "#/components/schemas/direction"
+                examples: 
+                  Example 1: 
+                    value: 
+                      data: 
+                        - 
+                          id: 1
+                          name: "ГИС"
+          "401": 
+            description: "Unauthorized"
+            content: 
+              application/json: 
+                schema: 
+                  $ref: "#/components/schemas/error-401"
+                examples: {}
+          "500": 
+            description: "Internal Server Error"
+            content: 
+              application/json: 
+                schema: 
+                  $ref: "#/components/schemas/error-500"
+                examples: {}
+        operationId: "indexDirections"
+        description: "Получение всех направлений"
+        parameters: []
+        security: 
+          - 
+            login: []
+        tags: 
+          - "directions"
+      parameters: []
+    /enquiry-code-analysis: 
+      get: 
+        summary: "indexEnquiryCodeAnalysis"
+        tags: 
+          - "enquiry-code-analysis"
+        responses: 
+          "200": 
+            description: "Список заявок на анализ исходного кода"
+            content: 
+              application/json: 
+                schema: 
+                  allOf: 
+                    - 
+                      properties: 
+                        data: 
+                          type: "array"
+                          items: 
+                            $ref: "#/components/schemas/enquiry-code-analysis"
+                    - 
+                      $ref: "#/components/schemas/pagination"
+                  type: "object"
+                examples: 
+                  Example 1: 
+                    value: 
+                      data: 
+                        - 
+                          request_id: 0
+                          initiator: 
+                            id: 0
+                            name: "string"
+                            last_name: "string"
+                            second_name: "string"
+                            phone: "string"
+                            email: "string"
+                          programming_language: 
+                            id: 0
+                            name: "string"
+                          file_name: "string"
+                          description: "string"
+                          status: "В работе"
+                          created_at: "string"
+                          is_editable: 0
+                          result: "string"
+                          result_author_id: 0
+                          result_created_at: "2021-01-22 11:39:10"
+                      current_page: 0
+                      last_page: 0
+                      per_page: 0
+            headers: {}
+          "401": 
+            description: "Unauthorized"
+            content: 
+              application/json: 
+                schema: 
+                  $ref: "#/components/schemas/error-401"
+                examples: {}
+          "500": 
+            description: "Internal Server Error"
+            content: 
+              application/json: 
+                schema: 
+                  $ref: "#/components/schemas/error-500"
+                examples: {}
+        operationId: "indexEnquiryCodeAnalysis"
+        description: "Получение всех заявок на анализ исходного кода"
+        parameters: 
+          - 
+            schema: 
+              type: "string"
+            in: "query"
+            name: "search"
+            description: "Поисковая строка"
+          - 
+            schema: 
+              type: "integer"
+            in: "query"
+            name: "initiator_id"
+            description: "Идентификатор инициатора"
+          - 
+            schema: 
+              type: "string"
+              pattern: "^\\d{4}-\\d{2}-\\d{2}$"
+              format: "date"
+            in: "query"
+            name: "created_at_from"
+            description: "Дата создания - начало периода"
+          - 
+            schema: 
+              type: "string"
+              pattern: "^\\d{4}-\\d{2}-\\d{2}$"
+              format: "date"
+            in: "query"
+            name: "created_at_to"
+            description: "Дата создания - конец периода"
+          - 
+            schema: 
+              type: "string"
+              enum: 
+                - "IN_JOB"
+                - "DONE"
+                - "DONE_WITH_ERROR"
+                - "ARCHIVE"
+                - "RESULT_RECEIVING"
+            in: "query"
+            name: "status"
+            description: "Ознакомление"
+          - 
+            schema: 
+              type: "integer"
+              minimum: 10
+            in: "query"
+            name: "per_page"
+            description: "Кол-во элементов на странице"
+          - 
+            schema: 
+              type: "integer"
+              minimum: 1
+            in: "query"
+            name: "page"
+            description: "Номер страницы"
+          - 
+            schema: 
+              type: "string"
+              default: "file_name"
+              enum: 
+                - "id"
+                - "file_name"
+                - "initiator_id"
+                - "programming_language_id"
+                - "status"
+                - "created_at"
+                - "is_editable"
+            in: "query"
+            name: "sort_field"
+            description: "Колонка для сортировки"
+          - 
+            schema: 
+              type: "string"
+              enum: 
+                - "asc"
+                - "desc"
+              default: "asc"
+            in: "query"
+            name: "sort_order"
+            description: "Направление сортировки"
+        security: 
+          - 
+            login: []
+      parameters: []
+      post: 
+        summary: "storeEnquiryCodeAnalysis"
+        operationId: "storeEnquiryCodeAnalysis"
+        responses: 
+          "200": 
+            description: "Заявка создана"
+            content: 
+              application/json: 
+                schema: 
+                  $ref: "#/components/schemas/enquiry-code-analysis"
+                examples: {}
+          "401": 
+            description: "Unauthorized"
+            content: 
+              application/json: 
+                schema: 
+                  $ref: "#/components/schemas/error-401"
+                examples: {}
+          "422": 
+            description: "Unprocessable entity"
+            content: 
+              application/json: 
+                schema: 
+                  $ref: "#/components/schemas/error-422"
+                examples: {}
+          "500": 
+            description: "Internal Server Error"
+            content: 
+              application/json: 
+                schema: 
+                  $ref: "#/components/schemas/error-500"
+                examples: {}
+        requestBody: 
+          content: 
+            application/json: 
+              schema: 
+                type: "object"
+                properties: 
+                  programming_language_id: 
+                    type: "integer"
+                    description: "ID языка программирования"
+                  file_name: 
+                    type: "string"
+                    maxLength: 128
+                    description: "Название файла"
+                required: 
+                  - "programming_language_id"
+                  - "file_name"
+              examples: 
+                Example 1: 
+                  value: 
+                    programming_language_id: 1
+                    file_name: "string"
+          description: ""
+        description: "Создание заявки на анализ исходного кода"
+        tags: 
+          - "enquiry-code-analysis"
+    /enquiry-code-analysis/initiators: 
+      get: 
+        summary: "indexEnquiryCodeAnalysisInitiators"
+        tags: 
+          - "enquiry-code-analysis"
+        responses: 
+          "200": 
+            description: "Список инициаторов заявок на анализ исходного кода"
+            content: 
+              application/json: 
+                schema: 
+                  type: "array"
+                  items: 
+                    $ref: "#/components/schemas/short-user"
+                examples: 
+                  Example 1: 
+                    value: 
+                      - 
+                        id: 0
+                        name: "string"
+                        last_name: "string"
+                        second_name: "string"
+                        phone: "string"
+                        email: "string"
+            headers: {}
+          "401": 
+            description: "Unauthorized"
+            content: 
+              application/json: 
+                schema: 
+                  $ref: "#/components/schemas/error-401"
+                examples: {}
+          "500": 
+            description: "Internal Server Error"
+            content: 
+              application/json: 
+                schema: 
+                  $ref: "#/components/schemas/error-500"
+                examples: {}
+        operationId: "indexEnquiryCodeAnalysisInitiators"
+        description: "Получение всех инициаторов заявок на анализ исходного кода"
+        parameters: []
+        security: 
+          - 
+            login: []
+      parameters: []
+    /enquiry-code-analysis/{id}: 
+      get: 
+        summary: "showEnquiryCodeAnalysis"
+        responses: 
+          "200": 
+            description: "Заявка найдена"
+            content: 
+              application/json: 
+                schema: 
+                  $ref: "#/components/schemas/enquiry-code-analysis"
+                examples: 
+                  Example 1: 
+                    value: 
+                      request_id: 0
+                      initiator: 
+                        id: 0
+                        name: "string"
+                        last_name: "string"
+                        second_name: "string"
+                        phone: "string"
+                        email: "string"
+                      programming_language: 
+                        id: 0
+                        name: "string"
+                      file_name: "string"
+                      description: "string"
+                      status: "В работе"
+                      created_at: "string"
+                      is_editable: 0
+                      result: "string"
+                      result_author_id: 0
+                      result_created_at: "2021-01-22 11:39:10"
+          "401": 
+            description: "Unauthorized"
+            content: 
+              application/json: 
+                schema: 
+                  $ref: "#/components/schemas/error-401"
+                examples: {}
+          "404": 
+            description: "Not found"
+            content: 
+              application/json: 
+                schema: 
+                  $ref: "#/components/schemas/error-404"
+                examples: {}
+          "500": 
+            description: "Internal Server Error"
+            content: 
+              application/json: 
+                schema: 
+                  $ref: "#/components/schemas/error-500"
+                examples: {}
+        operationId: "showEnquiryCodeAnalysis"
+        description: "Получение заявки на анализ потенциально исходного кода по Id"
+        parameters: []
+        security: 
+          - 
+            login: []
+        tags: 
+          - "enquiry-code-analysis"
+      parameters: 
+        - 
+          schema: 
+            type: "string"
+          name: "id"
+          in: "path"
+          required: true
+          description: "ID заявки на анализ исходного кода"
+      patch: 
+        summary: "updateEnquiryCodeAnalysis"
+        operationId: "updateEnquiryCodeAnalysis"
+        responses: 
+          "200": 
+            description: "Комментарий оставлен к заявке"
+            content: 
+              application/json: 
+                schema: 
+                  $ref: "#/components/schemas/enquiry-code-analysis"
+                examples: {}
+          "401": 
+            description: "Unauthorized"
+            content: 
+              application/json: 
+                schema: 
+                  $ref: "#/components/schemas/error-401"
+                examples: {}
+          "404": 
+            description: "Not found"
+            content: 
+              application/json: 
+                schema: 
+                  $ref: "#/components/schemas/error-404"
+                examples: {}
+          "422": 
+            description: "Unprocessable entity"
+            content: 
+              application/json: 
+                schema: 
+                  $ref: "#/components/schemas/error-422"
+                examples: {}
+          "500": 
+            description: "Internal Server Error"
+            content: 
+              application/json: 
+                schema: 
+                  $ref: "#/components/schemas/error-500"
+                examples: {}
+        description: "Обновление заявки на анализ исходного кода по Id"
+        requestBody: 
+          content: 
+            application/json: 
+              schema: 
+                type: "object"
+                properties: 
+                  result: 
+                    type: "string"
+                    description: "Результат анализа"
+                required: 
+                  - "result"
+              examples: 
+                Example 1: 
+                  value: 
+                    result: "string"
+          description: "Результат анализа"
+        tags: 
+          - "enquiry-code-analysis"
+    /enquiry-file-analysis/{id}: 
+      parameters: 
+        - 
+          schema: 
+            type: "integer"
+          name: "id"
+          in: "path"
+          required: true
+          description: "Id заявки на анализ потенциально вредоносного файла"
+      get: 
+        operationId: "showEnquiryFileAnalysis"
+        summary: "showEnquiryFileAnalysis"
+        tags: 
+          - "enquiry-file-analysis"
+        description: "Получение заявки на анализ потенциально вредоносного файла по Id"
+        responses: 
+          "200": 
+            description: "Заявка найдена"
+            content: 
+              application/json: 
+                schema: 
+                  $ref: "#/components/schemas/enquiry-file-analysis"
+                examples: 
+                  Example 1: 
+                    value: 
+                      id: 1
+                      status: "Выполнена"
+                      initiator: 
+                        id: 0
+                        name: "string"
+                        last_name: "string"
+                        second_name: "string"
+                        phone: "string"
+                        email: "string"
+                      filename: "ЛоготипБДУ.svg"
+                      created_at: "2021-01-22 11:39:10"
+                      description: "описание"
+                      analysis_results: "Вредоносная активность не обнаружена"
+                      is_editable: false
+                      result_author: 
+                        id: 0
+                        name: "string"
+                        last_name: "string"
+                        second_name: "string"
+                        phone: "string"
+                        email: "string"
+                      received_at: "2021-01-22 11:39:10"
+          "401": 
+            description: "Unauthorized"
+            content: 
+              application/json: 
+                schema: 
+                  $ref: "#/components/schemas/error-401"
+                examples: null
+          "404": 
+            description: "Not found"
+            content: 
+              application/json: 
+                schema: 
+                  $ref: "#/components/schemas/error-404"
+                examples: null
+          "500": 
+            description: "Internal Server Error"
+            content: 
+              application/json: 
+                schema: 
+                  $ref: "#/components/schemas/error-500"
+                examples: null
+      patch: 
+        summary: "updateEnquiryFileAnalysis"
+        operationId: "updateEnquiryFileAnalysis"
+        tags: 
+          - "enquiry-file-analysis"
+        description: "Обновление заявки на анализ потенциально вредоносного файла"
+        requestBody: 
+          content: 
+            application/json: 
+              schema: 
+                type: "object"
+                properties: 
+                  comment_from_employee: 
+                    type: "string"
+              examples: 
+                Example 1: 
+                  value: 
+                    comment_from_employee: "string"
+        responses: 
+          "200": 
+            description: "Заявка обновлена"
+            content: 
+              application/json: 
+                schema: 
+                  $ref: "#/components/schemas/enquiry-file-analysis"
+                examples: 
+                  Example 1: 
+                    value: 
+                      id: 1
+                      status: "Выполнена"
+                      initiator: 
+                        id: 0
+                        name: "string"
+                        last_name: "string"
+                        second_name: "string"
+                        phone: "string"
+                        email: "string"
+                      filename: "ЛоготипБДУ.svg"
+                      created_at: "2021-01-22 11:39:10"
+                      description: "описание"
+                      analysis_results: "Вредоносная активность не обнаружена"
+                      is_editable: false
+                      result_author: 
+                        id: 0
+                        name: "string"
+                        last_name: "string"
+                        second_name: "string"
+                        phone: "string"
+                        email: "string"
+                      received_at: "2021-01-22 11:39:10"
+          "401": 
+            description: "Unauthorized"
+            content: 
+              application/json: 
+                schema: 
+                  $ref: "#/components/schemas/error-401"
+                examples: null
+          "403": 
+            description: "Forbidden"
+            content: 
+              application/json: 
+                schema: 
+                  $ref: "#/components/schemas/error-403"
+                examples: null
+          "404": 
+            description: "Not found"
+            content: 
+              application/json: 
+                schema: 
+                  $ref: "#/components/schemas/error-404"
+                examples: null
+          "422": 
+            description: "Unprocessable Entity"
+            content: 
+              application/json: 
+                schema: 
+                  $ref: "#/components/schemas/error-422"
+                examples: null
+          "500": 
+            description: "Internal Server Error"
+            content: 
+              application/json: 
+                schema: 
+                  $ref: "#/components/schemas/error-500"
+                examples: null
+    /enquiry-file-analysis: 
+      get: 
+        operationId: "indexEnquiryFileAnalysis"
+        summary: "indexEnquiryFileAnalysis"
+        tags: 
+          - "enquiry-file-analysis"
+        description: "Получение списка заявок на анализ потенциально вредоносного файла"
+        parameters: 
+          - 
+            schema: 
+              type: "string"
+            in: "query"
+            name: "search"
+            description: "Поисковая строка"
+          - 
+            schema: 
+              type: "integer"
+              minimum: 10
+            in: "query"
+            name: "per_page"
+            description: "Кол-во элементов на странице"
+          - 
+            schema: 
+              type: "integer"
+              minimum: 1
+            in: "query"
+            name: "page"
+            description: "Номер страницы"
+          - 
+            schema: 
+              type: "array"
+              items: 
+                type: "string"
+                example: "WORKING"
+                enum: 
+                  - "WORKING"
+                  - "DONE"
+                  - "ERROR"
+                  - "ARCHIVE"
+            in: "query"
+            name: "status"
+            description: "Статус"
+          - 
+            schema: 
+              type: "integer"
+              minimum: 1
+              example: 123
+            in: "query"
+            name: "initiator_id"
+            description: "Идентификатор инициатора"
+          - 
+            schema: 
+              type: "string"
+              format: "date"
+              pattern: "^\\d{4}-\\d{2}-\\d{2}$"
+              example: "2023-01-01"
+            in: "query"
+            name: "created_at_from"
+            description: "Дата создания - начало периода"
+          - 
+            schema: 
+              type: "string"
+              format: "date"
+              pattern: "^\\d{4}-\\d{2}-\\d{2}$"
+              example: "2023-01-02"
+            in: "query"
+            name: "created_at_to"
+            description: "Дата создания - конец периода"
+          - 
+            schema: 
+              type: "boolean"
+              example: true
+            in: "query"
+            name: "is_editable"
+            description: "Возможность редактирования"
+          - 
+            schema: 
+              type: "string"
+              format: "date"
+              pattern: "^\\d{4}-\\d{2}-\\d{2}$"
+              example: "2023-01-01"
+            in: "query"
+            name: "received_at_from"
+            description: "Получено - начало периода"
+          - 
+            schema: 
+              type: "string"
+              pattern: "^\\d{4}-\\d{2}-\\d{2}$"
+              format: "date"
+              example: "2023-01-02"
+            in: "query"
+            name: "received_at_to"
+            description: "Получено - конец периода"
+          - 
+            schema: 
+              type: "string"
+              enum: 
+                - "id"
+                - "status"
+                - "initiator_id"
+                - "created_at"
+                - "is_editable"
+                - "received_at"
+              example: "id"
+            in: "query"
+            name: "sort_field"
+            description: "Колонка для сортировки"
+          - 
+            schema: 
+              type: "string"
+              enum: 
+                - "asc"
+                - "desc"
+              default: "asc"
+            in: "query"
+            name: "sort_order"
+            description: "Направление сортировки"
+        responses: 
+          "200": 
+            description: "Список заявок"
+            content: 
+              application/json: 
+                schema: 
+                  allOf: 
+                    - 
+                      properties: 
+                        data: 
+                          type: "array"
+                          items: 
+                            $ref: "#/components/schemas/enquiry-file-analysis"
+                    - 
+                      $ref: "#/components/schemas/pagination"
+                  type: "object"
+                examples: 
+                  Example 1: 
+                    value: 
+                      data: 
+                        - 
+                          id: 1
+                          status: "Выполнена"
+                          initiator: 
+                            id: 0
+                            name: "string"
+                            last_name: "string"
+                            second_name: "string"
+                            phone: "string"
+                            email: "string"
+                          filename: "ЛоготипБДУ.svg"
+                          created_at: "2021-01-22 11:39:10"
+                          description: "описание"
+                          analysis_results: "Вредоносная активность не обнаружена"
+                          is_editable: false
+                          result_author: 
+                            id: 0
+                            name: "string"
+                            last_name: "string"
+                            second_name: "string"
+                            phone: "string"
+                            email: "string"
+                          received_at: "2021-01-22 11:39:10"
+                      current_page: 0
+                      last_page: 0
+                      per_page: 0
+          "401": 
+            description: "Unauthorized"
+            content: 
+              application/json: 
+                schema: 
+                  $ref: "#/components/schemas/error-401"
+                examples: null
+          "422": 
+            description: "Unprocessable Entity"
+            content: 
+              application/json: 
+                schema: 
+                  $ref: "#/components/schemas/error-422"
+                examples: null
+          "500": 
+            description: "Internal Server Error"
+            content: 
+              application/json: 
+                schema: 
+                  $ref: "#/components/schemas/error-500"
+                examples: null
+      post: 
+        summary: "storeEnquiryFileAnalysis"
+        operationId: "storeEnquiryFileAnalysis"
+        tags: 
+          - "enquiry-file-analysis"
+        description: "Создание заявки на анализ потенциально вредоносного файла"
+        requestBody: 
+          content: 
+            multipart/form-data: 
+              schema: 
+                type: "object"
+                properties: 
+                  filename: 
+                    type: "file"
+                  description: 
+                    type: "string"
+                    example: "текст"
+                required: 
+                  - "filename"
+        responses: 
+          "200": 
+            description: "Заявка создана"
+            content: 
+              application/json: 
+                schema: 
+                  $ref: "#/components/schemas/enquiry-file-analysis"
+                examples: 
+                  Example 1: 
+                    value: 
+                      id: 1
+                      status: "В работе"
+                      initiator: 
+                        id: 0
+                        name: "string"
+                        last_name: "string"
+                        second_name: "string"
+                        phone: "string"
+                        email: "string"
+                      filename: "ЛоготипБДУ.svg"
+                      created_at: "2021-01-22 11:39:10"
+                      description: "описание"
+                      analysis_results: "Вредоносная активность не обнаружена"
+                      is_editable: false
+                      result_author: 
+                        id: 0
+                        name: "string"
+                        last_name: "string"
+                        second_name: "string"
+                        phone: "string"
+                        email: "string"
+                      received_at: "2021-01-22 11:39:10"
+          "401": 
+            description: "Unauthorized"
+            content: 
+              application/json: 
+                schema: 
+                  $ref: "#/components/schemas/error-401"
+                examples: null
+          "422": 
+            description: "Unprocessable Entity"
+            content: 
+              application/json: 
+                schema: 
+                  $ref: "#/components/schemas/error-422"
+                examples: null
+          "500": 
+            description: "Internal Server Error"
+            content: 
+              application/json: 
+                schema: 
+                  $ref: "#/components/schemas/error-500"
+                examples: null
+    /enquiry-scanning-vulnerabilities/{id}: 
+      parameters: 
+        - 
+          schema: 
+            type: "integer"
+          name: "id"
+          in: "path"
+          required: true
+          description: "Id заявки на сканирование уязвимостей"
+      get: 
+        operationId: "showEnquiryScanningVulnerabilities"
+        summary: "showEnquiryScanningVulnerabilities"
+        tags: 
+          - "enquiry-scanning-vulnerabilities"
+        description: "Получение заявки на сканирование уязвимостей по Id"
+        responses: 
+          "200": 
+            description: "Заявка найдена"
+            content: 
+              application/json: 
+                schema: 
+                  $ref: "#/components/schemas/enquiry-scanning-vulnerability"
+                examples: 
+                  Example 1: 
+                    value: 
+                      id: 1
+                      status: "Сканирование завершено"
+                      initiator: 
+                        id: 0
+                        name: "string"
+                        last_name: "string"
+                        second_name: "string"
+                        phone: "string"
+                        email: "string"
+                      created_at: "22.01.2021 11:39:10"
+                      information_system: "Наименование информационной системы"
+                      ip_addresses: 
+                        - "192.168.0.1"
+                      balancer_ip_addresses: 
+                        - "192.168.0.1"
+                      domains: 
+                        - "example.com"
+                      scanning_redcheck_started_at: "22.01.2021"
+                      scanning_redcheck_ended_at: "24.01.2021"
+                      scanner: "Redcheck"
+                      scanning_redcheck_period: "Однократно"
+                      proof: 
+                        - 
+                          name: "avatar.png"
+                          url: "upload/iblock/8d1/cb0j2yhe0afsi77vflncl9y22zqcfyg9.jpg"
+                      comments: 
+                        - 
+                          id: 1
+                          author: 
+                            id: 0
+                            name: "string"
+                            last_name: "string"
+                            second_name: "string"
+                            phone: "string"
+                            email: "string"
+                          text: "Пример текста комментария"
+                          created_at: "24.01.2021 11:39:10"
+                      job_id: 1
+          "401": 
+            description: "Unauthorized"
+            content: 
+              application/json: 
+                schema: 
+                  $ref: "#/components/schemas/error-401"
+                examples: null
+          "404": 
+            description: "Not found"
+            content: 
+              application/json: 
+                schema: 
+                  $ref: "#/components/schemas/error-404"
+                examples: null
+          "500": 
+            description: "Internal Server Error"
+            content: 
+              application/json: 
+                schema: 
+                  $ref: "#/components/schemas/error-500"
+                examples: null
+      delete: 
+        operationId: "destroyEnquiryScanningVulnerabilities"
+        summary: "destroyEnquiryScanningVulnerabilities"
+        tags: 
+          - "enquiry-scanning-vulnerabilities"
+        description: "Удаление заявки на сканирование уязвимостей по Id"
+        responses: 
+          "200": 
+            description: "Заявка найдена"
+            content: 
+              application/json: 
+                schema: 
+                  $ref: "#/components/schemas/error-200"
+                examples: 
+                  Example 1: 
+                    value: 
+                      message: "Успешно"
+                      code: 200
+          "401": 
+            description: "Unauthorized"
+            content: 
+              application/json: 
+                schema: 
+                  $ref: "#/components/schemas/error-401"
+                examples: null
+          "403": 
+            description: "Forbidden"
+            content: 
+              application/json: 
+                schema: 
+                  $ref: "#/components/schemas/error-404"
+                examples: null
+          "404": 
+            description: "Not found"
+            content: 
+              application/json: 
+                schema: 
+                  $ref: "#/components/schemas/error-404"
+                examples: null
+          "500": 
+            description: "Internal Server Error"
+            content: 
+              application/json: 
+                schema: 
+                  $ref: "#/components/schemas/error-500"
+                examples: null
+    /enquiry-scanning-vulnerabilities: 
+      get: 
+        operationId: "indexEnquiryScanningVulnerabilities"
+        summary: "indexEnquiryScanningVulnerabilities"
+        tags: 
+          - "enquiry-scanning-vulnerabilities"
+        description: "Получение списка заявок на сканирование уязвимостей"
+        parameters: 
+          - 
+            schema: 
+              type: "string"
+            in: "query"
+            name: "search"
+            description: "Поисковая строка"
+          - 
+            schema: 
+              type: "integer"
+              minimum: 10
+            in: "query"
+            name: "per_page"
+            description: "Кол-во элементов на странице"
+          - 
+            schema: 
+              type: "integer"
+              minimum: 1
+            in: "query"
+            name: "page"
+            description: "Номер страницы"
+          - 
+            schema: 
+              type: "string"
+              example: "REDCHECK_SCANNING_ERROR"
+              enum: 
+                - "REDCHECK_DRAFT"
+                - "REDCHECK_ON_APPROVAL"
+                - "REDCHECK_ON_ADJUSTMENT"
+                - "REDCHECK_REJECTED"
+                - "REDCHECK_AGREED"
+                - "REDCHECK_ERROR_SENDING"
+                - "REDCHECK_SCANNING"
+                - "REDCHECK_SCANNING_COMPLETED"
+                - "REDCHECK_SCANNING_ERROR"
+            in: "query"
+            name: "status"
+            description: "Статус"
+          - 
+            schema: 
+              type: "string"
+              format: "date"
+              pattern: "^\\d{4}-\\d{2}-\\d{2}$"
+              example: "2023-01-01"
+            in: "query"
+            name: "created_at_from"
+            description: "Дата создания - начало периода"
+          - 
+            schema: 
+              type: "string"
+              format: "date"
+              pattern: "^\\d{4}-\\d{2}-\\d{2}$"
+              example: "2023-01-02"
+            in: "query"
+            name: "created_at_to"
+            description: "Дата создания - конец периода"
+          - 
+            schema: 
+              type: "string"
+              enum: 
+                - "id"
+                - "status"
+              example: "id"
+            in: "query"
+            name: "sort_field"
+            description: "Колонка для сортировки"
+          - 
+            schema: 
+              type: "string"
+              enum: 
+                - "asc"
+                - "desc"
+              default: "asc"
+            in: "query"
+            name: "sort_order"
+            description: "Направление сортировки"
+        responses: 
+          "200": 
+            description: "Список заявок"
+            content: 
+              application/json: 
+                schema: 
+                  allOf: 
+                    - 
+                      properties: 
+                        data: 
+                          type: "array"
+                          items: 
+                            $ref: "#/components/schemas/enquiry-scanning-vulnerability"
+                    - 
+                      $ref: "#/components/schemas/pagination"
+                  type: "object"
+                examples: 
+                  Example 1: 
+                    value: 
+                      data: 
+                        - 
+                          id: 1
+                          status: "Сканирование завершено"
+                          initiator: 
+                            id: 0
+                            name: "string"
+                            last_name: "string"
+                            second_name: "string"
+                            phone: "string"
+                            email: "string"
+                          created_at: "22.01.2021 11:39:10"
+                          information_system: "Наименование информационной системы"
+                          ip_addresses: 
+                            - "192.168.0.1"
+                          balancer_ip_addresses: 
+                            - "192.168.0.1"
+                          domains: 
+                            - "example.com"
+                          scanning_redcheck_started_at: "22.01.2021"
+                          scanning_redcheck_ended_at: "24.01.2021"
+                          scanner: "Redcheck"
+                          scanning_redcheck_period: "Однократно"
+                          proof: 
+                            - 
+                              name: "avatar.png"
+                              url: "upload/iblock/8d1/cb0j2yhe0afsi77vflncl9y22zqcfyg9.jpg"
+                          comments: 
+                            - 
+                              id: 1
+                              author: 
+                                id: 0
+                                name: "string"
+                                last_name: "string"
+                                second_name: "string"
+                                phone: "string"
+                                email: "string"
+                              text: "Пример текста комментария"
+                              created_at: "24.01.2021 11:39:10"
+                          job_id: 1
+                      current_page: 0
+                      last_page: 0
+                      per_page: 0
+          "401": 
+            description: "Unauthorized"
+            content: 
+              application/json: 
+                schema: 
+                  $ref: "#/components/schemas/error-401"
+                examples: null
+          "422": 
+            description: "Unprocessable Entity"
+            content: 
+              application/json: 
+                schema: 
+                  $ref: "#/components/schemas/error-422"
+                examples: null
+          "500": 
+            description: "Internal Server Error"
+            content: 
+              application/json: 
+                schema: 
+                  $ref: "#/components/schemas/error-500"
+                examples: null
+      post: 
+        summary: "createEnquiryScanningVulnerabilities"
+        operationId: "createEnquiryScanningVulnerabilities"
+        tags: 
+          - "enquiry-scanning-vulnerabilities"
+        description: "Создание заявки на сканирование уязвимостей"
+        requestBody: 
+          content: 
+            multipart/form-data: 
+              schema: 
+                type: "object"
+                properties: 
+                  information_system: 
+                    type: "string"
+                    description: "Наименование информационной системы"
+                    example: "test"
+                  ip_addresses: 
+                    type: "array"
+                    items: 
+                      type: "string"
+                      format: "ipv4"
+                    description: "IP адреса"
+                    example: 
+                      - "127.0.0.1"
+                      - "127.0.0.2"
+                      - "127.0.0.3"
+                  balancer_ip_addresses: 
+                    type: "array"
+                    items: 
+                      type: "string"
+                      format: "ipv4"
+                    description: "IP адреса балансировщиков"
+                    example: 
+                      - "127.0.0.1"
+                      - "127.0.0.2"
+                      - "127.0.0.3"
+                  domains: 
+                    type: "array"
+                    items: 
+                      type: "string"
+                      format: "hostname"
+                    description: "Доменные имена"
+                    example: 
+                      - "example.com"
+                      - "example2.com"
+                      - "example3.com"
+                  scanner: 
+                    type: "string"
+                    description: "Сканер"
+                    enum: 
+                      - "REDCHECK"
+                  scanning_redcheck_started_at: 
+                    type: "string"
+                    format: "date"
+                    description: "Дата начала сканирования в RedCheck"
+                    example: "2023-10-11"
+                  scanning_redcheck_ended_at: 
+                    type: "string"
+                    format: "date"
+                    description: "Дата завершения сканирования в RedCheck"
+                    example: "2023-10-29"
+                  scanning_redcheck_period: 
+                    type: "string"
+                    enum: 
+                      - "ONCE"
+                      - "WEEKLY"
+                      - "MONTHLY"
+                    description: "Периодичность сканирования"
+                    example: "ONCE"
+                  proof: 
+                    type: "array"
+                    items: 
+                      type: "string"
+                      format: "binary"
+                    description: "Подтверждение принадлежности адресов"
+        responses: 
+          "200": 
+            description: "Заявка создана"
+            content: 
+              application/json: 
+                schema: 
+                  $ref: "#/components/schemas/enquiry-scanning-vulnerability"
+                examples: 
+                  Example 1: 
+                    value: 
+                      id: 1
+                      status: "Черновик"
+                      initiator: 
+                        id: 0
+                        name: "string"
+                        last_name: "string"
+                        second_name: "string"
+                        phone: "string"
+                        email: "string"
+                      created_at: "22.01.2021 11:39:10"
+                      information_system: "Наименование информационной системы"
+                      ip_addresses: 
+                        - "192.168.0.1"
+                      balancer_ip_addresses: 
+                        - "192.168.0.1"
+                      domains: 
+                        - "example.com"
+                      scanning_redcheck_started_at: "22.01.2021"
+                      scanning_redcheck_ended_at: "24.01.2021"
+                      scanner: "Redcheck"
+                      scanning_redcheck_period: "Ежемесячно"
+                      proof: 
+                        - 
+                          name: "avatar.png"
+                          url: "upload/iblock/8d1/cb0j2yhe0afsi77vflncl9y22zqcfyg9.jpg"
+                      comments: 
+                        - 
+                          id: 1
+                          author: 
+                            id: 0
+                            name: "string"
+                            last_name: "string"
+                            second_name: "string"
+                            phone: "string"
+                            email: "string"
+                          text: "Пример текста комментария"
+                          created_at: "24.01.2021 11:39:10"
+                      job_id: 1
+          "401": 
+            description: "Unauthorized"
+            content: 
+              application/json: 
+                schema: 
+                  $ref: "#/components/schemas/error-401"
+                examples: null
+          "422": 
+            description: "Unprocessable Entity"
+            content: 
+              application/json: 
+                schema: 
+                  $ref: "#/components/schemas/error-422"
+                examples: null
+          "500": 
+            description: "Internal Server Error"
+            content: 
+              application/json: 
+                schema: 
+                  $ref: "#/components/schemas/error-500"
+                examples: null
+    /enquiry-scanning-vulnerabilities/draft: 
+      post: 
+        summary: "createDraftEnquiryScanningVulnerabilities"
+        operationId: "createDraftEnquiryScanningVulnerabilities"
+        tags: 
+          - "enquiry-scanning-vulnerabilities"
+        description: "Создание черновика заявки на сканирование уязвимостей"
+        requestBody: 
+          content: 
+            multipart/form-data: 
+              schema: 
+                type: "object"
+                properties: 
+                  information_system: 
+                    type: "string"
+                    description: "Наименование информационной системы"
+                    example: "test"
+                  ip_addresses: 
+                    type: "array"
+                    items: 
+                      type: "string"
+                      format: "ipv4"
+                    description: "IP адреса"
+                    example: 
+                      - "127.0.0.1"
+                      - "127.0.0.2"
+                      - "127.0.0.3"
+                  balancer_ip_addresses: 
+                    type: "array"
+                    items: 
+                      type: "string"
+                      format: "ipv4"
+                    description: "IP адреса балансировщиков"
+                    example: 
+                      - "127.0.0.1"
+                      - "127.0.0.2"
+                      - "127.0.0.3"
+                  domains: 
+                    type: "array"
+                    items: 
+                      type: "string"
+                      format: "hostname"
+                    description: "Доменные имена"
+                    example: 
+                      - "example.com"
+                      - "example2.com"
+                      - "example3.com"
+                  scanner: 
+                    type: "string"
+                    description: "Сканер"
+                    enum: 
+                      - "REDCHECK"
+                  scanning_redcheck_started_at: 
+                    type: "string"
+                    format: "date"
+                    description: "Дата начала сканирования в RedCheck"
+                    example: "2023-10-11"
+                  scanning_redcheck_ended_at: 
+                    type: "string"
+                    format: "date"
+                    description: "Дата завершения сканирования в RedCheck"
+                    example: "2023-10-29"
+                  scanning_redcheck_period: 
+                    type: "string"
+                    enum: 
+                      - "ONCE"
+                      - "WEEKLY"
+                      - "MONTHLY"
+                    description: "Периодичность сканирования"
+                    example: "ONCE"
+                  proof: 
+                    type: "array"
+                    items: 
+                      type: "string"
+                      format: "binary"
+                    description: "Подтверждение принадлежности адресов"
+        responses: 
+          "200": 
+            description: "Черновик заявки создан"
+            content: 
+              application/json: 
+                schema: 
+                  $ref: "#/components/schemas/enquiry-scanning-vulnerability"
+                examples: 
+                  Example 1: 
+                    value: 
+                      id: 1
+                      status: "Сканирование завершено"
+                      initiator: 
+                        id: 0
+                        name: "string"
+                        last_name: "string"
+                        second_name: "string"
+                        phone: "string"
+                        email: "string"
+                      created_at: "22.01.2021 11:39:10"
+                      information_system: "Наименование информационной системы"
+                      ip_addresses: 
+                        - "192.168.0.1"
+                      balancer_ip_addresses: 
+                        - "192.168.0.1"
+                      domains: 
+                        - "example.com"
+                      scanning_redcheck_started_at: "22.01.2021"
+                      scanning_redcheck_ended_at: "24.01.2021"
+                      scanner: "Redcheck"
+                      scanning_redcheck_period: "Однократно"
+                      proof: 
+                        - 
+                          name: "avatar.png"
+                          url: "upload/iblock/8d1/cb0j2yhe0afsi77vflncl9y22zqcfyg9.jpg"
+                      comments: 
+                        - 
+                          id: 1
+                          author: 
+                            id: 0
+                            name: "string"
+                            last_name: "string"
+                            second_name: "string"
+                            phone: "string"
+                            email: "string"
+                          text: "Пример текста комментария"
+                          created_at: "24.01.2021 11:39:10"
+                      job_id: 1
+          "401": 
+            description: "Unauthorized"
+            content: 
+              application/json: 
+                schema: 
+                  $ref: "#/components/schemas/error-401"
+                examples: null
+          "422": 
+            description: "Unprocessable Entity"
+            content: 
+              application/json: 
+                schema: 
+                  $ref: "#/components/schemas/error-422"
+                examples: null
+          "500": 
+            description: "Internal Server Error"
+            content: 
+              application/json: 
+                schema: 
+                  $ref: "#/components/schemas/error-500"
+                examples: null
+    /enquiry-scanning-vulnerabilities/{id}/approval: 
+      parameters: 
+        - 
+          schema: 
+            type: "integer"
+          name: "id"
+          in: "path"
+          required: true
+          description: "Id заявки на сканирование уязвимостей"
+      post: 
+        summary: "updateApprovalEnquiryScanningVulnerabilities"
+        operationId: "updateApprovalEnquiryScanningVulnerabilities"
+        tags: 
+          - "enquiry-scanning-vulnerabilities"
+        description: "Редактирование заявки на сканирование уязвимостей участником ВЦ"
+        requestBody: 
+          content: 
+            multipart/form-data: 
+              schema: 
+                type: "object"
+                properties: 
+                  information_system: 
+                    type: "string"
+                    description: "Наименование информационной системы"
+                    example: "test"
+                  ip_addresses: 
+                    type: "array"
+                    items: 
+                      type: "string"
+                      format: "ipv4"
+                    description: "IP адреса"
+                    example: 
+                      - "127.0.0.1"
+                      - "127.0.0.2"
+                      - "127.0.0.3"
+                  balancer_ip_addresses: 
+                    type: "array"
+                    items: 
+                      type: "string"
+                      format: "ipv4"
+                    description: "IP адреса балансировщиков"
+                    example: 
+                      - "127.0.0.1"
+                      - "127.0.0.2"
+                      - "127.0.0.3"
+                  domains: 
+                    type: "array"
+                    items: 
+                      type: "string"
+                      format: "hostname"
+                    description: "Доменные имена"
+                    example: 
+                      - "example.com"
+                      - "example2.com"
+                      - "example3.com"
+                  scanner: 
+                    type: "string"
+                    description: "Сканер"
+                    enum: 
+                      - "REDCHECK"
+                  scanning_redcheck_started_at: 
+                    type: "string"
+                    format: "date"
+                    description: "Дата начала сканирования в RedCheck"
+                    example: "2023-10-11"
+                  scanning_redcheck_ended_at: 
+                    type: "string"
+                    format: "date"
+                    description: "Дата завершения сканирования в RedCheck"
+                    example: "2023-10-29"
+                  scanning_redcheck_period: 
+                    type: "string"
+                    enum: 
+                      - "ONCE"
+                      - "WEEKLY"
+                      - "MONTHLY"
+                    description: "Периодичность сканирования"
+                    example: "ONCE"
+                  proof: 
+                    type: "array"
+                    items: 
+                      type: "string"
+                      format: "binary"
+                    description: "Подтверждение принадлежности адресов"
+        responses: 
+          "200": 
+            description: "Заявка обновлена"
+            content: 
+              application/json: 
+                schema: 
+                  $ref: "#/components/schemas/enquiry-scanning-vulnerability"
+                examples: 
+                  Example 1: 
+                    value: 
+                      id: 1
+                      status: "Сканирование завершено"
+                      initiator: 
+                        id: 0
+                        name: "string"
+                        last_name: "string"
+                        second_name: "string"
+                        phone: "string"
+                        email: "string"
+                      created_at: "22.01.2021 11:39:10"
+                      information_system: "Наименование информационной системы"
+                      ip_addresses: 
+                        - "192.168.0.1"
+                      balancer_ip_addresses: 
+                        - "192.168.0.1"
+                      domains: 
+                        - "example.com"
+                      scanning_redcheck_started_at: "22.01.2021"
+                      scanning_redcheck_ended_at: "24.01.2021"
+                      scanner: "Redcheck"
+                      scanning_redcheck_period: "Однократно"
+                      proof: 
+                        - 
+                          name: "avatar.png"
+                          url: "upload/iblock/8d1/cb0j2yhe0afsi77vflncl9y22zqcfyg9.jpg"
+                      comments: 
+                        - 
+                          id: 1
+                          author: 
+                            id: 0
+                            name: "string"
+                            last_name: "string"
+                            second_name: "string"
+                            phone: "string"
+                            email: "string"
+                          text: "Пример текста комментария"
+                          created_at: "24.01.2021 11:39:10"
+                      job_id: 1
+          "401": 
+            description: "Unauthorized"
+            content: 
+              application/json: 
+                schema: 
+                  $ref: "#/components/schemas/error-401"
+                examples: null
+          "403": 
+            description: "Forbidden"
+            content: 
+              application/json: 
+                schema: 
+                  $ref: "#/components/schemas/error-404"
+                examples: null
+          "422": 
+            description: "Unprocessable Entity"
+            content: 
+              application/json: 
+                schema: 
+                  $ref: "#/components/schemas/error-422"
+                examples: null
+          "500": 
+            description: "Internal Server Error"
+            content: 
+              application/json: 
+                schema: 
+                  $ref: "#/components/schemas/error-500"
+                examples: null
+    /enquiry-scanning-vulnerabilities/{id}/wc-worker: 
+      parameters: 
+        - 
+          schema: 
+            type: "integer"
+          name: "id"
+          in: "path"
+          required: true
+          description: "Id заявки на сканирование уязвимостей"
+      post: 
+        summary: "updateWcWorkerEnquiryScanningVulnerabilities"
+        operationId: "updateWcWorkerEnquiryScanningVulnerabilities"
+        tags: 
+          - "enquiry-scanning-vulnerabilities"
+        description: "Редактирование заявки на сканирование уязвимостей сотрудником ВЦ"
+        requestBody: 
+          content: 
+            multipart/form-data: 
+              schema: 
+                type: "object"
+                properties: 
+                  information_system: 
+                    type: "string"
+                    description: "Наименование информационной системы"
+                    example: "test"
+                  ip_addresses: 
+                    type: "array"
+                    items: 
+                      type: "string"
+                      format: "ipv4"
+                    description: "IP адреса"
+                    example: 
+                      - "127.0.0.1"
+                      - "127.0.0.2"
+                      - "127.0.0.3"
+                  balancer_ip_addresses: 
+                    type: "array"
+                    items: 
+                      type: "string"
+                      format: "ipv4"
+                    description: "IP адреса балансировщиков"
+                    example: 
+                      - "127.0.0.1"
+                      - "127.0.0.2"
+                      - "127.0.0.3"
+                  domains: 
+                    type: "array"
+                    items: 
+                      type: "string"
+                      format: "hostname"
+                    description: "Доменные имена"
+                    example: 
+                      - "example.com"
+                      - "example2.com"
+                      - "example3.com"
+                  scanner: 
+                    type: "string"
+                    description: "Сканер"
+                    enum: 
+                      - "REDCHECK"
+                  scanning_redcheck_started_at: 
+                    type: "string"
+                    format: "date"
+                    description: "Дата начала сканирования в RedCheck"
+                    example: "2023-10-11"
+                  scanning_redcheck_ended_at: 
+                    type: "string"
+                    format: "date"
+                    description: "Дата завершения сканирования в RedCheck"
+                    example: "2023-10-29"
+                  scanning_redcheck_period: 
+                    type: "string"
+                    enum: 
+                      - "ONCE"
+                      - "WEEKLY"
+                      - "MONTHLY"
+                    description: "Периодичность сканирования"
+                    example: "ONCE"
+                  proof: 
+                    type: "array"
+                    items: 
+                      type: "string"
+                      format: "binary"
+                    description: "Подтверждение принадлежности адресов"
+        responses: 
+          "200": 
+            description: "Заявка обновлена"
+            content: 
+              application/json: 
+                schema: 
+                  $ref: "#/components/schemas/enquiry-scanning-vulnerability"
+                examples: 
+                  Example 1: 
+                    value: 
+                      id: 1
+                      status: "Сканирование завершено"
+                      initiator: 
+                        id: 0
+                        name: "string"
+                        last_name: "string"
+                        second_name: "string"
+                        phone: "string"
+                        email: "string"
+                      created_at: "22.01.2021 11:39:10"
+                      information_system: "Наименование информационной системы"
+                      ip_addresses: 
+                        - "192.168.0.1"
+                      balancer_ip_addresses: 
+                        - "192.168.0.1"
+                      domains: 
+                        - "example.com"
+                      scanning_redcheck_started_at: "22.01.2021"
+                      scanning_redcheck_ended_at: "24.01.2021"
+                      scanner: "Redcheck"
+                      scanning_redcheck_period: "Однократно"
+                      proof: 
+                        - 
+                          name: "avatar.png"
+                          url: "upload/iblock/8d1/cb0j2yhe0afsi77vflncl9y22zqcfyg9.jpg"
+                      comments: 
+                        - 
+                          id: 1
+                          author: 
+                            id: 0
+                            name: "string"
+                            last_name: "string"
+                            second_name: "string"
+                            phone: "string"
+                            email: "string"
+                          text: "Пример текста комментария"
+                          created_at: "24.01.2021 11:39:10"
+                      job_id: 1
+          "401": 
+            description: "Unauthorized"
+            content: 
+              application/json: 
+                schema: 
+                  $ref: "#/components/schemas/error-401"
+                examples: null
+          "403": 
+            description: "Forbidden"
+            content: 
+              application/json: 
+                schema: 
+                  $ref: "#/components/schemas/error-404"
+                examples: null
+          "422": 
+            description: "Unprocessable Entity"
+            content: 
+              application/json: 
+                schema: 
+                  $ref: "#/components/schemas/error-422"
+                examples: null
+          "500": 
+            description: "Internal Server Error"
+            content: 
+              application/json: 
+                schema: 
+                  $ref: "#/components/schemas/error-500"
+                examples: null
+    /enquiry-scanning-vulnerabilities/{id}/draft: 
+      parameters: 
+        - 
+          schema: 
+            type: "integer"
+          name: "id"
+          in: "path"
+          required: true
+          description: "Id заявки на сканирование уязвимостей"
+      post: 
+        summary: "updateDraftEnquiryScanningVulnerabilities"
+        operationId: "updateDraftEnquiryScanningVulnerabilities"
+        tags: 
+          - "enquiry-scanning-vulnerabilities"
+        description: "Редактирование черновика заявки на сканирование уязвимостей"
+        requestBody: 
+          content: 
+            multipart/form-data: 
+              schema: 
+                type: "object"
+                properties: 
+                  information_system: 
+                    type: "string"
+                    description: "Наименование информационной системы"
+                    example: "test"
+                  ip_addresses: 
+                    type: "array"
+                    items: 
+                      type: "string"
+                      format: "ipv4"
+                    description: "IP адреса"
+                    example: 
+                      - "127.0.0.1"
+                      - "127.0.0.2"
+                      - "127.0.0.3"
+                  balancer_ip_addresses: 
+                    type: "array"
+                    items: 
+                      type: "string"
+                      format: "ipv4"
+                    description: "IP адреса балансировщиков"
+                    example: 
+                      - "127.0.0.1"
+                      - "127.0.0.2"
+                      - "127.0.0.3"
+                  domains: 
+                    type: "array"
+                    items: 
+                      type: "string"
+                      format: "hostname"
+                    description: "Доменные имена"
+                    example: 
+                      - "example.com"
+                      - "example2.com"
+                      - "example3.com"
+                  scanner: 
+                    type: "string"
+                    description: "Сканер"
+                    enum: 
+                      - "REDCHECK"
+                  scanning_redcheck_started_at: 
+                    type: "string"
+                    format: "date"
+                    description: "Дата начала сканирования в RedCheck"
+                    example: "2023-10-11"
+                  scanning_redcheck_ended_at: 
+                    type: "string"
+                    format: "date"
+                    description: "Дата завершения сканирования в RedCheck"
+                    example: "2023-10-29"
+                  scanning_redcheck_period: 
+                    type: "string"
+                    enum: 
+                      - "ONCE"
+                      - "WEEKLY"
+                      - "MONTHLY"
+                    description: "Периодичность сканирования"
+                    example: "ONCE"
+                  proof: 
+                    type: "array"
+                    items: 
+                      type: "string"
+                      format: "binary"
+                    description: "Подтверждение принадлежности адресов"
+        responses: 
+          "200": 
+            description: "Заявка обновлена"
+            content: 
+              application/json: 
+                schema: 
+                  $ref: "#/components/schemas/enquiry-scanning-vulnerability"
+                examples: 
+                  Example 1: 
+                    value: 
+                      id: 1
+                      status: "Сканирование завершено"
+                      initiator: 
+                        id: 0
+                        name: "string"
+                        last_name: "string"
+                        second_name: "string"
+                        phone: "string"
+                        email: "string"
+                      created_at: "22.01.2021 11:39:10"
+                      information_system: "Наименование информационной системы"
+                      ip_addresses: 
+                        - "192.168.0.1"
+                      balancer_ip_addresses: 
+                        - "192.168.0.1"
+                      domains: 
+                        - "example.com"
+                      scanning_redcheck_started_at: "22.01.2021"
+                      scanning_redcheck_ended_at: "24.01.2021"
+                      scanner: "Redcheck"
+                      scanning_redcheck_period: "Однократно"
+                      proof: 
+                        - 
+                          name: "avatar.png"
+                          url: "upload/iblock/8d1/cb0j2yhe0afsi77vflncl9y22zqcfyg9.jpg"
+                      comments: 
+                        - 
+                          id: 1
+                          author: 
+                            id: 0
+                            name: "string"
+                            last_name: "string"
+                            second_name: "string"
+                            phone: "string"
+                            email: "string"
+                          text: "Пример текста комментария"
+                          created_at: "24.01.2021 11:39:10"
+                      job_id: 1
+          "401": 
+            description: "Unauthorized"
+            content: 
+              application/json: 
+                schema: 
+                  $ref: "#/components/schemas/error-401"
+                examples: null
+          "403": 
+            description: "Forbidden"
+            content: 
+              application/json: 
+                schema: 
+                  $ref: "#/components/schemas/error-404"
+                examples: null
+          "422": 
+            description: "Unprocessable Entity"
+            content: 
+              application/json: 
+                schema: 
+                  $ref: "#/components/schemas/error-422"
+                examples: null
+          "500": 
+            description: "Internal Server Error"
+            content: 
+              application/json: 
+                schema: 
+                  $ref: "#/components/schemas/error-500"
+                examples: null
+    /enquiry-scanning-vulnerabilities/{id}/moderate: 
+      parameters: 
+        - 
+          schema: 
+            type: "integer"
+          name: "id"
+          in: "path"
+          required: true
+          description: "Id заявки на сканирование уязвимостей"
+      patch: 
+        summary: "moderateEnquiryScanningVulnerabilities"
+        operationId: "moderateEnquiryScanningVulnerabilities"
+        tags: 
+          - "enquiry-scanning-vulnerabilities"
+        description: "Согласование заявки на сканирование уязвимостей"
+        requestBody: 
+          content: 
+            application/json: 
+              schema: 
+                type: "object"
+                properties: 
+                  comment: 
+                    type: "string"
+                    description: "Комментарий"
+                    example: "Все хорошо или не очень"
+                  status: 
+                    type: "string"
+                    enum: 
+                      - "AGREED"
+                      - "ON_ADJUSTMENT"
+                      - "REJECTED"
+                    description: "Статус модерации"
+                    example: "REJECTED"
+              examples: 
+                Example 1: 
+                  value: 
+                    comment: "Все хорошо или не очень"
+                    status: "AGREED"
+        responses: 
+          "200": 
+            description: "Заявка промодерирована"
+            content: 
+              application/json: 
+                schema: 
+                  $ref: "#/components/schemas/enquiry-scanning-vulnerability"
+                examples: null
+          "401": 
+            description: "Unauthorized"
+            content: 
+              application/json: 
+                schema: 
+                  $ref: "#/components/schemas/error-401"
+                examples: null
+          "403": 
+            description: "Forbidden"
+            content: 
+              application/json: 
+                schema: 
+                  $ref: "#/components/schemas/error-404"
+                examples: null
+          "422": 
+            description: "Unprocessable Entity"
+            content: 
+              application/json: 
+                schema: 
+                  $ref: "#/components/schemas/error-422"
+                examples: null
+          "500": 
+            description: "Internal Server Error"
+            content: 
+              application/json: 
+                schema: 
+                  $ref: "#/components/schemas/error-500"
+                examples: null
+    /enquiry-scanning-vulnerabilities/{id}/close: 
+      parameters: 
+        - 
+          schema: 
+            type: "integer"
+          name: "id"
+          in: "path"
+          required: true
+          description: "Id заявки на сканирование уязвимостей"
+      patch: 
+        summary: "closeEnquiryScanningVulnerabilities"
+        operationId: "closeEnquiryScanningVulnerabilities"
+        tags: 
+          - "enquiry-scanning-vulnerabilities"
+        description: "Завершение сканирования вручную"
+        responses: 
+          "200": 
+            description: "Заявка завершена"
+            content: 
+              application/json: 
+                schema: 
+                  $ref: "#/components/schemas/enquiry-scanning-vulnerability"
+                examples: 
+                  Example 1: 
+                    value: 
+                      id: 1
+                      status: "Сканирование завершено"
+                      initiator: 
+                        id: 0
+                        name: "string"
+                        last_name: "string"
+                        second_name: "string"
+                        phone: "string"
+                        email: "string"
+                      created_at: "22.01.2021 11:39:10"
+                      information_system: "Наименование информационной системы"
+                      ip_addresses: 
+                        - "192.168.0.1"
+                      balancer_ip_addresses: 
+                        - "192.168.0.1"
+                      domains: 
+                        - "example.com"
+                      scanning_redcheck_started_at: "22.01.2021"
+                      scanning_redcheck_ended_at: "24.01.2021"
+                      scanner: "Redcheck"
+                      scanning_redcheck_period: "Однократно"
+                      proof: 
+                        - 
+                          name: "avatar.png"
+                          url: "upload/iblock/8d1/cb0j2yhe0afsi77vflncl9y22zqcfyg9.jpg"
+                      comments: 
+                        - 
+                          id: 1
+                          author: 
+                            id: 0
+                            name: "string"
+                            last_name: "string"
+                            second_name: "string"
+                            phone: "string"
+                            email: "string"
+                          text: "Пример текста комментария"
+                          created_at: "24.01.2021 11:39:10"
+                      job_id: 1
+          "401": 
+            description: "Unauthorized"
+            content: 
+              application/json: 
+                schema: 
+                  $ref: "#/components/schemas/error-401"
+                examples: null
+          "403": 
+            description: "Forbidden"
+            content: 
+              application/json: 
+                schema: 
+                  $ref: "#/components/schemas/error-404"
+                examples: null
+          "422": 
+            description: "Unprocessable Entity"
+            content: 
+              application/json: 
+                schema: 
+                  $ref: "#/components/schemas/error-422"
+                examples: null
+          "500": 
+            description: "Internal Server Error"
+            content: 
+              application/json: 
+                schema: 
+                  $ref: "#/components/schemas/error-500"
+                examples: null
+    /instructions: 
+      get: 
+        summary: "indexInstructions"
+        responses: 
+          "200": 
+            description: "Список инструкций"
+            content: 
+              application/json: 
+                schema: 
+                  allOf: 
+                    - 
+                      properties: 
+                        data: 
+                          type: "array"
+                          items: 
+                            $ref: "#/components/schemas/instruction"
+                    - 
+                      $ref: "#/components/schemas/pagination"
+                  type: "object"
+                examples: 
+                  Example 1: 
+                    value: 
+                      data: 
+                        - 
+                          id: 0
+                          name: "string"
+                          file: "string"
+                      current_page: 0
+                      last_page: 0
+                      per_page: 0
+          "401": 
+            description: "Unauthorized"
+            content: 
+              application/json: 
+                schema: 
+                  $ref: "#/components/schemas/error-401"
+                examples: {}
+          "500": 
+            description: "Internal Server Error"
+            content: 
+              application/json: 
+                schema: 
+                  $ref: "#/components/schemas/error-500"
+                examples: {}
+        operationId: "indexInstructions"
+        description: "Получение всех инструкций"
+        parameters: 
+          - 
+            schema: 
+              type: "integer"
+              minimum: 1
+              maximum: 100
+              example: 10
+            in: "query"
+            name: "page"
+            description: "Номер страницы"
+          - 
+            schema: 
+              type: "integer"
+              example: 10
+            in: "query"
+            name: "per_page"
+            description: "Кол-во элементов на странице"
+          - 
+            schema: 
+              type: "string"
+            in: "query"
+            name: "search"
+            description: "Поисковая строка"
+          - 
+            schema: 
+              type: "string"
+              example: "id"
+            in: "query"
+            name: "sort_field"
+            description: "Колонка для сортировки"
+          - 
+            schema: 
+              type: "string"
+              example: "asc"
+            in: "query"
+            name: "sort_order"
+            description: "Направление сортировки"
+        security: 
+          - 
+            login: []
+        tags: 
+          - "inctructions"
+    /methodological-documents: 
+      get: 
+        summary: "indexMethodologicalDocuments"
+        responses: 
+          "200": 
+            description: "Список методических документов"
+            content: 
+              application/json: 
+                schema: 
+                  allOf: 
+                    - 
+                      properties: 
+                        data: 
+                          type: "array"
+                          items: 
+                            $ref: "#/components/schemas/methodological-document"
+                    - 
+                      $ref: "#/components/schemas/pagination"
+                  type: "object"
+                  required: 
+                    - "data"
+                    - "current_page"
+                    - "last_page"
+                    - "per_page"
+                examples: 
+                  Example 1: 
+                    value: 
+                      data: 
+                        - 
+                          id: 0
+                          name: "string"
+                          organization: 
+                            id: 0
+                            name: "string"
+                          posted_at: "string"
+                          file: "string"
+                          direction: 
+                            id: 0
+                            name: "string"
+                          requisites: "string"
+                          is_acquainted: 0
+                      current_page: 0
+                      last_page: 0
+                      per_page: 0
+          "401": 
+            description: "Unauthorized"
+            content: 
+              application/json: 
+                schema: 
+                  $ref: "#/components/schemas/error-401"
+                examples: {}
+          "500": 
+            description: "Internal Server Error"
+            content: 
+              application/json: 
+                schema: 
+                  $ref: "#/components/schemas/error-500"
+                examples: {}
+        operationId: "indexMethodologicalDocuments"
+        description: "Получение всех методических документов"
+        parameters: 
+          - 
+            schema: 
+              type: "string"
+            in: "query"
+            name: "search"
+            description: "Поисковая строка"
+          - 
+            schema: 
+              type: "array"
+              uniqueItems: true
+            in: "query"
+            name: "direction_ids"
+            description: "ID направлений"
+          - 
+            schema: 
+              type: "string"
+              pattern: "^\\d{4}-\\d{2}-\\d{2}$"
+              format: "date"
+            in: "query"
+            name: "posted_at"
+            description: "Дата размещения"
+          - 
+            schema: 
+              type: "integer"
+              minimum: 0
+              maximum: 1
+              example: 0
+            in: "query"
+            name: "is_acquainted"
+            description: "Ознакомление"
+          - 
+            schema: 
+              type: "integer"
+              minimum: 10
+            in: "query"
+            name: "per_page"
+            description: "Кол-во элементов на странице"
+          - 
+            schema: 
+              type: "integer"
+              minimum: 1
+            in: "query"
+            description: "Номер страницы"
+            name: "page"
+          - 
+            schema: 
+              type: "string"
+              enum: 
+                - "id"
+                - "name"
+                - "posted_at"
+                - "direction_id"
+                - "organization_id"
+                - "is_acquainted"
+              default: "name"
+            in: "query"
+            name: "sort_field"
+            description: "Колонка для сортировки"
+          - 
+            schema: 
+              type: "string"
+              enum: 
+                - "asc"
+                - "desc"
+              default: "asc"
+            in: "query"
+            name: "sort_order"
+            description: "Направление сортировки"
+        security: 
+          - 
+            login: []
+        tags: 
+          - "methodological-documents"
+      parameters: []
+      post: 
+        summary: "storeMethodologicalDocument"
+        operationId: "storeMethodologicalDocument"
+        responses: 
+          "200": 
+            description: "Методический документ создан"
+            content: 
+              application/json: 
+                schema: 
+                  $ref: "#/components/schemas/methodological-document"
+                examples: 
+                  Example 1: 
+                    value: 
+                      id: 0
+                      name: "string"
+                      organization: 
+                        id: 0
+                        name: "string"
+                      posted_at: "string"
+                      file: "string"
+                      direction: 
+                        id: 0
+                        name: "string"
+                      requisites: "string"
+                      is_acquainted: 0
+          "401": 
+            description: "Unauthorized"
+            content: 
+              application/json: 
+                schema: 
+                  $ref: "#/components/schemas/error-401"
+                examples: {}
+          "422": 
+            description: "Unprocessable entity"
+            content: 
+              application/json: 
+                schema: 
+                  $ref: "#/components/schemas/error-422"
+                examples: {}
+          "500": 
+            description: "Internal Server Error"
+            content: 
+              application/json: 
+                schema: 
+                  $ref: "#/components/schemas/error-500"
+                examples: {}
+        description: "Создание методического документа"
+        requestBody: 
+          content: 
+            application/json: 
+              schema: 
+                type: "object"
+                properties: 
+                  name: 
+                    type: "string"
+                    description: "Название"
+                  posted_at: 
+                    type: "string"
+                    description: "Дата размещения"
+                    example: "ГГГГ-ММ-ДД"
+                  file: 
+                    type: "string"
+                    description: "Ссылка на файл"
+                  requisites: 
+                    type: "string"
+                    description: "Реквизиты документа"
+                  organization_id: 
+                    type: "integer"
+                    description: "ID организации"
+                  direction_id: 
+                    type: "integer"
+                    description: "ID направления"
+                required: 
+                  - "name"
+                  - "posted_at"
+                  - "file"
+                  - "direction_id"
+              examples: {}
+        tags: 
+          - "methodological-documents"
+    /methodological-documents/{id}: 
+      parameters: 
+        - 
+          schema: 
+            type: "string"
+          name: "id"
+          in: "path"
+          required: true
+          description: "ID методического документа"
+      patch: 
+        summary: "updateMethodologicalDocument"
+        operationId: "updateMethodologicalDocument"
+        responses: 
+          "200": 
+            description: "Методический документ обновлен"
+            content: 
+              application/json: 
+                schema: 
+                  $ref: "#/components/schemas/methodological-document"
+                examples: 
+                  Example 1: 
+                    value: 
+                      id: 0
+                      name: "string"
+                      organization: 
+                        id: 0
+                        name: "string"
+                      posted_at: "string"
+                      file: "string"
+                      direction: 
+                        id: 0
+                        name: "string"
+                      requisites: "string"
+                      is_acquainted: 0
+          "401": 
+            description: "Unauthorized"
+            content: 
+              application/json: 
+                schema: 
+                  $ref: "#/components/schemas/error-401"
+                examples: {}
+          "404": 
+            description: "Not found"
+            content: 
+              application/json: 
+                schema: 
+                  $ref: "#/components/schemas/error-404"
+                examples: {}
+          "422": 
+            description: "Unprocessable entity"
+            content: 
+              application/json: 
+                schema: 
+                  $ref: "#/components/schemas/error-422"
+                examples: {}
+          "500": 
+            description: "Internal Server Error"
+            content: 
+              application/json: 
+                schema: 
+                  $ref: "#/components/schemas/error-500"
+                examples: {}
+        description: "Обновление методического документа по Id"
+        requestBody: 
+          content: 
+            application/json: 
+              schema: 
+                type: "object"
+                properties: 
+                  organization_id: 
+                    type: "integer"
+                    description: "ID организации"
+                required: 
+                  - "organization_id"
+              examples: 
+                Example 1: 
+                  value: 
+                    organization_id: 1
+        tags: 
+          - "methodological-documents"
+      delete: 
+        summary: "deleteMethodologicalDocument"
+        operationId: "deleteMethodologicalDocument"
+        responses: 
+          "200": 
+            description: "Методический документ удален"
+            content: {}
+          "401": 
+            description: "Unauthorized"
+            content: 
+              application/json: 
+                schema: 
+                  $ref: "#/components/schemas/error-401"
+                examples: {}
+          "404": 
+            description: "Not found"
+            content: 
+              application/json: 
+                schema: 
+                  $ref: "#/components/schemas/error-404"
+                examples: {}
+          "500": 
+            description: "Internal Server Error"
+            content: 
+              application/json: 
+                schema: 
+                  $ref: "#/components/schemas/error-500"
+                examples: {}
+        description: "Удаление методического документа по Id"
+        tags: 
+          - "methodological-documents"
+    /methodological-documents/{id}/acquainted: 
+      parameters: 
+        - 
+          schema: 
+            type: "string"
+          name: "id"
+          in: "path"
+          required: true
+          description: "ID методического документа"
+      patch: 
+        summary: "updateAcquaintedMethodologicalDocuments"
+        operationId: "updateAcquaintedMethodologicalDocuments"
+        responses: 
+          "200": 
+            description: "Значения чек-бокса \"Ознакомление\" изменено"
+            content: 
+              application/json: 
+                schema: 
+                  $ref: "#/components/schemas/methodological-document"
+                examples: 
+                  Example 1: 
+                    value: 
+                      id: 0
+                      name: "string"
+                      organization: 
+                        id: 0
+                        name: "string"
+                      posted_at: "string"
+                      file: "string"
+                      direction: 
+                        id: 0
+                        name: "string"
+                      requisites: "string"
+                      is_acquainted: 0
+          "401": 
+            description: "Unauthorized"
+            content: 
+              application/json: 
+                schema: 
+                  $ref: "#/components/schemas/error-401"
+                examples: {}
+          "404": 
+            description: "Not found"
+            content: 
+              application/json: 
+                schema: 
+                  $ref: "#/components/schemas/error-404"
+                examples: {}
+          "422": 
+            description: "Unprocessable entity"
+            content: 
+              application/json: 
+                schema: 
+                  $ref: "#/components/schemas/error-422"
+                examples: {}
+          "500": 
+            description: "Internal Server Error"
+            content: 
+              application/json: 
+                schema: 
+                  $ref: "#/components/schemas/error-500"
+                examples: {}
+        description: "Изменение значения чек-бокса \"Ознакомление\" по Id"
+        requestBody: 
+          content: 
+            application/json: 
+              schema: 
+                type: "object"
+                properties: 
+                  is_acquainted: 
+                    type: "integer"
+                    example: 0
+                    minimum: 0
+                    maximum: 1
+                    description: "Ознакомление"
+                required: 
+                  - "is_acquainted"
+              examples: 
+                Example 1: 
+                  value: 
+                    is_acquainted: 0
+        tags: 
+          - "methodological-documents"
+    /notifications: 
+      get: 
+        summary: "indexNotifications"
+        tags: 
+          - "notifications"
+        responses: 
+          "200": 
+            description: "Список уведомлений"
+            content: 
+              application/json: 
+                schema: 
+                  allOf: 
+                    - 
+                      properties: 
+                        data: 
+                          type: "array"
+                          items: 
+                            $ref: "#/components/schemas/notification"
+                    - 
+                      $ref: "#/components/schemas/pagination"
+                  type: "object"
+                examples: 
+                  Example 1: 
+                    value: 
+                      data: 
+                        - 
+                          id: 1
+                          user_id: 2
+                          content: "Текст уведомления"
+                      current_page: 0
+                      last_page: 0
+                      per_page: 10
+          "401": 
+            description: "Unauthorized"
+            content: 
+              application/json: 
+                schema: 
+                  $ref: "#/components/schemas/error-401"
+                examples: {}
+          "500": 
+            description: "Internal Server Error"
+            content: 
+              application/json: 
+                schema: 
+                  $ref: "#/components/schemas/error-500"
+                examples: {}
+        operationId: "indexNotifications"
+        description: "Получение всех уведомлений"
+        parameters: 
+          - 
+            schema: 
+              type: "integer"
+              minimum: 10
+            in: "query"
+            name: "per_page"
+            minimum: 10
+            description: "Кол-во элементов на странице"
+          - 
+            schema: 
+              type: "integer"
+              minimum: 1
+            in: "query"
+            name: "page"
+            minimum: 1
+            description: "Номер страницы"
+        security: 
+          - 
+            login: []
+      parameters: []
+    /notifications/unread: 
+      get: 
+        summary: "indexUnreadNotifications"
+        tags: 
+          - "notifications"
+        responses: 
+          "200": 
+            description: "Список непрочитанных уведомлений"
+            content: 
+              application/json: 
+                schema: 
+                  type: "object"
+                  properties: 
+                    data: 
+                      type: "array"
+                      items: 
+                        $ref: "#/components/schemas/notification"
+                examples: 
+                  Example 1: 
+                    value: 
+                      data: 
+                        - 
+                          id: 1
+                          user_id: 2
+                          content: "Текст уведомления"
+          "401": 
+            description: "Unauthorized"
+            content: 
+              application/json: 
+                schema: 
+                  $ref: "#/components/schemas/error-401"
+                examples: {}
+          "500": 
+            description: "Internal Server Error"
+            content: 
+              application/json: 
+                schema: 
+                  $ref: "#/components/schemas/error-500"
+                examples: {}
+        operationId: "indexUnreadNotifications"
+        description: "Получение всех непрочитанных уведомлений"
+        parameters: []
+        security: 
+          - 
+            login: []
+      parameters: []
+    /organizations: 
+      get: 
+        summary: "indexOrganizations"
+        tags: 
+          - "organizations"
+        responses: 
+          "200": 
+            description: "Список организаций"
+            content: 
+              application/json: 
+                schema: 
+                  type: "object"
+                  properties: 
+                    data: 
+                      type: "array"
+                      items: 
+                        $ref: "#/components/schemas/organization"
+                examples: 
+                  Example 1: 
+                    value: 
+                      data: 
+                        - 
+                          id: 1
+                          name: "Организация"
+          "401": 
+            description: "Unauthorized"
+            content: 
+              application/json: 
+                schema: 
+                  $ref: "#/components/schemas/error-401"
+                examples: {}
+          "500": 
+            description: "Internal Server Error"
+            content: 
+              application/json: 
+                schema: 
+                  $ref: "#/components/schemas/error-500"
+                examples: {}
+        operationId: "indexOrganizations"
+        description: "Получение всех организаций"
+        parameters: []
+        security: 
+          - 
+            login: []
+      parameters: []
+    /programming-languages: 
+      get: 
+        summary: "indexProgrammingLanguages"
+        tags: 
+          - "programming-languages"
+        responses: 
+          "200": 
+            description: "Список языков программирования"
+            content: 
+              application/json: 
+                schema: 
+                  type: "object"
+                  properties: 
+                    data: 
+                      type: "array"
+                      items: 
+                        $ref: "#/components/schemas/programming-language"
+                examples: 
+                  Example 1: 
+                    value: 
+                      data: 
+                        - 
+                          id: 0
+                          name: "string"
+          "401": 
+            description: "Unauthorized"
+            content: 
+              application/json: 
+                schema: 
+                  $ref: "#/components/schemas/error-401"
+                examples: {}
+          "500": 
+            description: "Internal Server Error"
+            content: 
+              application/json: 
+                schema: 
+                  $ref: "#/components/schemas/error-500"
+                examples: {}
+        operationId: "indexProgrammingLanguages"
+        description: "Получение всех языков программирования"
+        parameters: []
+        security: 
+          - 
+            login: []
+      parameters: []
+    /regulation-types: 
+      get: 
+        summary: "indexRegulationTypes"
+        tags: 
+          - "regulation-type"
+        responses: 
+          "200": 
+            description: "Список типов нормативно-правовых актов"
+            content: 
+              application/json: 
+                schema: 
+                  type: "object"
+                  properties: 
+                    data: 
+                      type: "array"
+                      items: 
+                        $ref: "#/components/schemas/regulation-type"
+                examples: 
+                  Example 1: 
+                    value: 
+                      data: 
+                        - 
+                          id: 0
+                          name: "string"
+          "401": 
+            description: "Unauthorized"
+            content: 
+              application/json: 
+                schema: 
+                  $ref: "#/components/schemas/error-401"
+                examples: {}
+          "500": 
+            description: "Internal Server Error"
+            content: 
+              application/json: 
+                schema: 
+                  $ref: "#/components/schemas/error-500"
+                examples: {}
+        operationId: "indexRegulationTypes"
+        description: "Получение всех типов нормативно-правовых актов"
+        parameters: []
+        security: 
+          - 
+            login: []
+      parameters: []
+    /regulations: 
+      get: 
+        summary: "indexRegulations"
+        responses: 
+          "200": 
+            description: "Список нормативно-правовых актов"
+            content: 
+              application/json: 
+                schema: 
+                  allOf: 
+                    - 
+                      properties: 
+                        data: 
+                          type: "array"
+                          items: 
+                            $ref: "#/components/schemas/regulation"
+                    - 
+                      $ref: "#/components/schemas/pagination"
+                  type: "object"
+                  required: 
+                    - "data"
+                    - "current_page"
+                    - "last_page"
+                    - "per_page"
+                examples: 
+                  Example 1: 
+                    value: 
+                      data: 
+                        - 
+                          id: 0
+                          regulation_type: 
+                            id: 0
+                            name: "string"
+                          organization: 
+                            id: 0
+                            name: "string"
+                          name: "string"
+                          approval_date: "ГГГГ-ММ-ДД"
+                          effective_date: "ГГГГ-ММ-ДД"
+                          file: "string"
+                          link: "string"
+                      current_page: 0
+                      last_page: 0
+                      per_page: 0
+          "401": 
+            description: "Unauthorized"
+            content: 
+              application/json: 
+                schema: 
+                  $ref: "#/components/schemas/error-401"
+                examples: {}
+          "500": 
+            description: "Internal Server Error"
+            content: 
+              application/json: 
+                schema: 
+                  $ref: "#/components/schemas/error-500"
+                examples: {}
+        operationId: "indexRegulations"
+        description: "Получение всех нормативно-правовых актов"
+        parameters: 
+          - 
+            schema: 
+              type: "integer"
+              minimum: 10
+            in: "query"
+            name: "per_page"
+            minimum: 10
+            description: "Кол-во элементов на странице"
+          - 
+            schema: 
+              type: "integer"
+              minimum: 1
+            in: "query"
+            name: "page"
+            minimum: 1
+            description: "Номер страницы"
+          - 
+            schema: 
+              type: "string"
+            in: "query"
+            name: "search"
+            description: "Поисковая строка"
+          - 
+            schema: 
+              type: "array"
+              uniqueItems: true
+            in: "query"
+            name: "regulation_type_ids"
+            description: "Типы НПА"
+            items: 
+              type: "integer"
+          - 
+            schema: 
+              type: "string"
+              format: "date"
+              pattern: "^\\d{4}-\\d{2}-\\d{2}$"
+            in: "query"
+            name: "approval_date"
+            description: "Дата утверждения"
+          - 
+            schema: 
+              type: "string"
+              pattern: "^\\d{4}-\\d{2}-\\d{2}$"
+              format: "date"
+            in: "query"
+            name: "effective_date"
+            description: "Дата введения в действие"
+          - 
+            schema: 
+              type: "string"
+              default: "name"
+              enum: 
+                - "id"
+                - "name"
+                - "regulation_type_id"
+                - "organization_id"
+                - "approval_date"
+                - "effective_date"
+            in: "query"
+            name: "sort_field"
+            description: "Колонка для сортировки"
+          - 
+            schema: 
+              type: "string"
+              default: "asc"
+              enum: 
+                - "asc"
+                - "desc"
+            in: "query"
+            name: "sort_order"
+            description: "Направление сортировки"
+        security: 
+          - 
+            login: []
+        tags: 
+          - "regulations"
+      parameters: []
+      post: 
+        summary: "storeRegulation"
+        operationId: "storeRegulation"
+        responses: 
+          "200": 
+            description: "Нормативно-правовой акт создан"
+            content: 
+              application/json: 
+                schema: 
+                  $ref: "#/components/schemas/regulation"
+                examples: {}
+          "401": 
+            description: "Unauthorized"
+            content: 
+              application/json: 
+                schema: 
+                  $ref: "#/components/schemas/error-401"
+                examples: {}
+          "422": 
+            description: "Unprocessable entity"
+            content: 
+              application/json: 
+                schema: 
+                  $ref: "#/components/schemas/error-422"
+                examples: {}
+          "500": 
+            description: "Internal Server Error"
+            content: 
+              application/json: 
+                schema: 
+                  $ref: "#/components/schemas/error-500"
+                examples: {}
+        description: "Создание нормативно-правового акта"
+        requestBody: 
+          content: 
+            application/json: 
+              schema: 
+                type: "object"
+                properties: 
+                  name: 
+                    type: "string"
+                    description: "Название"
+                  regulation_type_id: 
+                    type: "integer"
+                    description: "ID типа НПА"
+                  approval_date: 
+                    type: "string"
+                    description: "Дата утверждения"
+                    example: "ГГГГ-ММ-ДД"
+                  effective_date: 
+                    type: "string"
+                    description: "Дата введения в действие"
+                    example: "ГГГГ-ММ-ДД"
+                  file: 
+                    type: "string"
+                    description: "Ссылка на файл"
+                  link: 
+                    type: "string"
+                    description: "Ссылка"
+                  organization_id: 
+                    type: "integer"
+                    description: "ID организации"
+                required: 
+                  - "name"
+                  - "regulation_type_id"
+                  - "approval_date"
+                  - "effective_date"
+              examples: 
+                Example 1: 
+                  value: 
+                    name: "string"
+                    regulation_type_id: 0
+                    approval_date: "ГГГГ-ММ-ДД"
+                    effective_date: "ГГГГ-ММ-ДД"
+                    file: "string"
+                    link: "string"
+                    organization_id: 0
+        tags: 
+          - "regulations"
+    /regulations/{id}: 
+      parameters: 
+        - 
+          schema: 
+            type: "string"
+          name: "id"
+          in: "path"
+          required: true
+          description: "ID нормативно-правового акта"
+      patch: 
+        summary: "updateRegulation"
+        operationId: "updateRegulation"
+        responses: 
+          "200": 
+            description: "Нормативно-правовой акт обновлен"
+            content: 
+              application/json: 
+                schema: 
+                  $ref: "#/components/schemas/regulation"
+                examples: {}
+          "401": 
+            description: "Unauthorized"
+            content: 
+              application/json: 
+                schema: 
+                  $ref: "#/components/schemas/error-401"
+                examples: {}
+          "404": 
+            description: "Not found"
+            content: 
+              application/json: 
+                schema: 
+                  $ref: "#/components/schemas/error-404"
+                examples: {}
+          "422": 
+            description: "Unprocessable entity"
+            content: 
+              application/json: 
+                schema: 
+                  $ref: "#/components/schemas/error-422"
+                examples: {}
+          "500": 
+            description: "Internal Server Error"
+            content: 
+              application/json: 
+                schema: 
+                  $ref: "#/components/schemas/error-500"
+                examples: {}
+        description: "Обновление нормативно-правового акта по Id"
+        requestBody: 
+          content: 
+            application/json: 
+              schema: 
+                type: "object"
+                properties: 
+                  organization_id: 
+                    type: "integer"
+                    description: "ID организации"
+                required: 
+                  - "organization_id"
+              examples: 
+                Example 1: 
+                  value: 
+                    organization_id: 1
+        tags: 
+          - "regulations"
+      delete: 
+        summary: "deleteRegulation"
+        operationId: "deleteRegulation"
+        responses: 
+          "200": 
+            description: "Нормативно-правовой акт удален"
+            content: 
+              application/json: 
+                schema: 
+                  type: "object"
+                  properties: 
+                    code: 
+                      type: "integer"
+                      default: 200
+                      example: 200
+                examples: {}
+          "401": 
+            description: "Unauthorized"
+            content: 
+              application/json: 
+                schema: 
+                  $ref: "#/components/schemas/error-401"
+                examples: {}
+          "404": 
+            description: "Not found"
+            content: 
+              application/json: 
+                schema: 
+                  $ref: "#/components/schemas/error-404"
+                examples: {}
+          "500": 
+            description: "Internal Server Error"
+            content: 
+              application/json: 
+                schema: 
+                  $ref: "#/components/schemas/error-500"
+                examples: {}
+        description: "Удаление нормативно-правового акта по Id"
+        tags: 
+          - "regulations"
+    /scanning-vulnerabilities/{id}: 
+      parameters: 
+        - 
+          schema: 
+            type: "integer"
+          name: "id"
+          in: "path"
+          required: true
+          description: "Id уязвимости найденной сканерами"
+          example: 1
+      get: 
+        operationId: "showScanningVulnerability"
+        summary: "showScanningVulnerability"
+        tags: 
+          - "scanning-vulnerabilities"
+        description: "Получение уязвимости найденной сканерами по Id"
+        responses: 
+          "200": 
+            description: "Уязвимость найдена"
+            content: 
+              application/json: 
+                schema: 
+                  $ref: "#/components/schemas/scanning-vulnerability"
+                examples: 
+                  Example 1: 
+                    value: 
+                      id: 1
+                      rvision_id: "83582985-ad91-3616-bfc0-6ff6474a69a5"
+                      status: "Устранена"
+                      type: "Недостаточная проверка вводимых данных"
+                      vulnerability_id: "83582985-ad91-3616-bfc0-6ff6474a69a5"
+                      vulnerability_name: "Уязвимость компонента PL/SQL системы управления базами данных Oracle Database Server, позволяющая нарушителю получить несанкционированный доступ к защищаемым данным или получить доступ на изменение, добавление или удаление защищаемых данных"
+                      description: "Уязвимость компонента PL/SQL системы управления базами данных Oracle Database Server связана с недостаточной проверкой входных данных. Эксплуатация уязвимости может позволить нарушителю, действующему удаленно, получить несанкционированный доступ к защищаемым данным или получить доступ на изменение, добавление или удаление защищаемых данных"
+                      vulnerability_criticality: "Вредоносная активность не обнаружена"
+                      discovered_at: "2021-01-22"
+                      cvssv2: 5.8
+                      cvssv3: 5.9
+                      vector_v2: "AV:N/AC:L/Au:M/C:P/I:P/A:P"
+                      vector_v3: "AV:N/AC:L/PR:H/UI:R/S:C/C:L/I:L/A:L"
+                      domain: "oracle.com"
+                      host_ip: "95.101.178.195"
+                      port: 8080
+                      host_name: "https://www.oracle.com"
+                      identification_src: "https://www.oracle.com/security-alerts/cpuoct2023.html"
+                      cve: "https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-22071"
+                      bdu_fstec: "https://bdu.fstec.ru/vul/2023-06901"
+                      references: 
+                        - 
+                          source: "NATIONAL VULNERABILITY DATABASE"
+                          url: "https://nvd.nist.gov/vuln/detail/CVE-2023-22071"
+                      software_vulnerabilities: 
+                        - 
+                          cpe: "Oracle Corp."
+                          name: "Database Server"
+                          path: "/"
+                          version: "от 19.3 до 19.19 включительно"
+                      dit_inc_result: "Данные уточняются"
+                      removal_recommend: "https://www.oracle.com/security-alerts/cpuoct2023.html"
+          "401": 
+            description: "Unauthorized"
+            content: 
+              application/json: 
+                schema: 
+                  $ref: "#/components/schemas/error-401"
+                examples: null
+          "404": 
+            description: "Not found"
+            content: 
+              application/json: 
+                schema: 
+                  $ref: "#/components/schemas/error-404"
+                examples: null
+          "500": 
+            description: "Internal Server Error"
+            content: 
+              application/json: 
+                schema: 
+                  $ref: "#/components/schemas/error-500"
+                examples: null
+      patch: 
+        summary: "updateScanningVulnerability"
+        operationId: "updateScanningVulnerability"
+        tags: 
+          - "scanning-vulnerabilities"
+        description: "Обновление уязвимости найденной сканерами"
+        responses: 
+          "200": 
+            description: "Заявка обновлена"
+            content: 
+              application/json: 
+                schema: 
+                  $ref: "#/components/schemas/scanning-vulnerability"
+                examples: 
+                  Example 1: 
+                    value: 
+                      id: 1
+                      rvision_id: "83582985-ad91-3616-bfc0-6ff6474a69a5"
+                      status: "Открыта"
+                      type: "Недостаточная проверка вводимых данных"
+                      vulnerability_id: "83582985-ad91-3616-bfc0-6ff6474a69a5"
+                      vulnerability_name: "Уязвимость компонента PL/SQL системы управления базами данных Oracle Database Server, позволяющая нарушителю получить несанкционированный доступ к защищаемым данным или получить доступ на изменение, добавление или удаление защищаемых данных"
+                      description: "Уязвимость компонента PL/SQL системы управления базами данных Oracle Database Server связана с недостаточной проверкой входных данных. Эксплуатация уязвимости может позволить нарушителю, действующему удаленно, получить несанкционированный доступ к защищаемым данным или получить доступ на изменение, добавление или удаление защищаемых данных"
+                      vulnerability_criticality: "Вредоносная активность не обнаружена"
+                      discovered_at: "2021-01-22"
+                      cvssv2: 5.8
+                      cvssv3: 5.9
+                      vector_v2: "AV:N/AC:L/Au:M/C:P/I:P/A:P"
+                      vector_v3: "AV:N/AC:L/PR:H/UI:R/S:C/C:L/I:L/A:L"
+                      domain: "oracle.com"
+                      host_ip: "95.101.178.195"
+                      port: 8080
+                      host_name: "https://www.oracle.com"
+                      identification_src: "https://www.oracle.com/security-alerts/cpuoct2023.html"
+                      cve: "https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-22071"
+                      bdu_fstec: "https://bdu.fstec.ru/vul/2023-06901"
+                      references: 
+                        - 
+                          source: "NATIONAL VULNERABILITY DATABASE"
+                          url: "https://nvd.nist.gov/vuln/detail/CVE-2023-22071"
+                      software_vulnerabilities: 
+                        - 
+                          cpe: "Oracle Corp."
+                          name: "Database Server"
+                          path: "/"
+                          version: "от 19.3 до 19.19 включительно"
+                      dit_inc_result: "Данные уточняются"
+                      removal_recommend: "https://www.oracle.com/security-alerts/cpuoct2023.html"
+          "401": 
+            description: "Unauthorized"
+            content: 
+              application/json: 
+                schema: 
+                  $ref: "#/components/schemas/error-401"
+                examples: null
+          "403": 
+            description: "Forbidden"
+            content: 
+              application/json: 
+                schema: 
+                  $ref: "#/components/schemas/error-403"
+                examples: null
+          "404": 
+            description: "Not found"
+            content: 
+              application/json: 
+                schema: 
+                  $ref: "#/components/schemas/error-404"
+                examples: null
+          "500": 
+            description: "Internal Server Error"
+            content: 
+              application/json: 
+                schema: 
+                  $ref: "#/components/schemas/error-500"
+                examples: null
+    /scanning-vulnerabilities: 
+      get: 
+        operationId: "indexScanningVulnerability"
+        summary: "indexScanningVulnerability"
+        tags: 
+          - "scanning-vulnerabilities"
+        description: "Получение списка уязвимостей найденными сканерами"
+        responses: 
+          "200": 
+            description: "Список заявок"
+            content: 
+              application/json: 
+                schema: 
+                  allOf: 
+                    - 
+                      properties: 
+                        data: 
+                          type: "array"
+                          items: 
+                            $ref: "#/components/schemas/scanning-vulnerability"
+                    - 
+                      $ref: "#/components/schemas/pagination"
+                  type: "object"
+          "401": 
+            description: "Unauthorized"
+            content: 
+              application/json: 
+                schema: 
+                  $ref: "#/components/schemas/error-401"
+                examples: null
+          "422": 
+            description: "Unprocessable Entity"
+            content: 
+              application/json: 
+                schema: 
+                  $ref: "#/components/schemas/error-422"
+                examples: null
+          "500": 
+            description: "Internal Server Error"
+            content: 
+              application/json: 
+                schema: 
+                  $ref: "#/components/schemas/error-500"
+                examples: null
+        parameters: 
+          - 
+            schema: 
+              type: "integer"
+              minimum: 1
+              maximum: 100
+              example: 10
+            in: "query"
+            name: "page"
+            description: "Номер страницы"
+          - 
+            schema: 
+              type: "integer"
+              example: 10
+            in: "query"
+            name: "per_page"
+            description: "Кол-во элементов на странице"
+          - 
+            schema: 
+              type: "string"
+              enum: 
+                - "CLOSE"
+                - "OPEN"
+              example: "OPEN"
+            in: "query"
+            name: "status"
+            description: "Статус"
+          - 
+            schema: 
+              type: "string"
+              pattern: "^\\d{4}-\\d{2}-\\d{2}$"
+              example: "2021-01-01"
+              format: "date"
+            in: "query"
+            name: "discovered_at_from"
+            description: "Обнаружение - от"
+          - 
+            schema: 
+              type: "string"
+              pattern: "^\\d{4}-\\d{2}-\\d{2}$"
+              example: "2021-01-02"
+              format: "date"
+            in: "query"
+            name: "discovered_at_to"
+            description: "Обнаружение - по"
+          - 
+            schema: 
+              type: "string"
+            in: "query"
+            name: "search"
+            description: "Поисковая строка"
+          - 
+            schema: 
+              type: "string"
+              enum: 
+                - "id"
+                - "vulnerability_name"
+                - "cvssv3"
+                - "cve"
+                - "discovered_at"
+                - "status"
+              example: "id"
+            in: "query"
+            name: "sort_field"
+            description: "Колонка для сортировки"
+          - 
+            schema: 
+              type: "string"
+              enum: 
+                - "asc"
+                - "desc"
+              example: "asc"
+            in: "query"
+            name: "sort_order"
+            description: "Направление сортировки"
+    /settings-number-network-names: 
+      get: 
+        operationId: "indexSettingsNumberNetworkNames"
+        summary: "indexSettingsNumberNetworkNames"
+        tags: 
+          - "settings-number-network-names"
+        description: "Получение количества строк IP и доменных имен"
+        responses: 
+          "200": 
+            description: "Список количества строк IP и доменных имен"
+            content: 
+              application/json: 
+                schema: 
+                  $ref: "#/components/schemas/settings-number-network-names"
+                examples: 
+                  Example 1: 
+                    value: 
+                      number_of_ip_addresses: 10
+                      number_of_balancer_ip_addresses: 10
+                      number_of_domain_names: 10
+          "401": 
+            description: "Unauthorized"
+            content: 
+              application/json: 
+                schema: 
+                  $ref: "#/components/schemas/error-401"
+                examples: null
+          "422": 
+            description: "Unprocessable Entity"
+            content: 
+              application/json: 
+                schema: 
+                  $ref: "#/components/schemas/error-422"
+                examples: null
+          "500": 
+            description: "Internal Server Error"
+            content: 
+              application/json: 
+                schema: 
+                  $ref: "#/components/schemas/error-500"
+                examples: null
+      patch: 
+        summary: "updateSettingsNumberNetworkNames"
+        operationId: "updateSettingsNumberNetworkNames"
+        tags: 
+          - "settings-number-network-names"
+        description: "Обновление количества строк IP и доменных имен"
+        requestBody: 
+          content: 
+            application/json: 
+              schema: 
+                type: "object"
+                properties: 
+                  number_of_ip_addresses: 
+                    type: "integer"
+                    description: "Количество IP адресов"
+                  number_of_balancer_ip_addresses: 
+                    type: "integer"
+                    description: "Количество IP адресов балансировщиков"
+                  number_of_domain_names: 
+                    type: "integer"
+                    description: "Количество Доменных имен"
+        responses: 
+          "200": 
+            description: "Заявка создана"
+            content: 
+              application/json: 
+                schema: 
+                  $ref: "#/components/schemas/enquiry-scanning-vulnerability"
+                examples: 
+                  Example 1: 
+                    value: 
+                      id: 1
+                      status: "Черновик"
+                      initiator: 
+                        id: 0
+                        name: "string"
+                        last_name: "string"
+                        second_name: "string"
+                        phone: "string"
+                        email: "string"
+                      created_at: "22.01.2021 11:39:10"
+                      information_system: "Наименование информационной системы"
+                      ip_addresses: 
+                        - "192.168.0.1"
+                      balancer_ip_addresses: 
+                        - "192.168.0.1"
+                      domains: 
+                        - "example.com"
+                      scanning_redcheck_started_at: "22.01.2021"
+                      scanning_redcheck_ended_at: "24.01.2021"
+                      scanner: "Redcheck"
+                      scanning_redcheck_period: "Ежемесячно"
+                      proof: 
+                        - 
+                          name: "avatar.png"
+                          url: "upload/iblock/8d1/cb0j2yhe0afsi77vflncl9y22zqcfyg9.jpg"
+                      comments: 
+                        - 
+                          id: 1
+                          author: 
+                            id: 0
+                            name: "string"
+                            last_name: "string"
+                            second_name: "string"
+                            phone: "string"
+                            email: "string"
+                          text: "Пример текста комментария"
+                          created_at: "24.01.2021 11:39:10"
+                      job_id: 1
+          "401": 
+            description: "Unauthorized"
+            content: 
+              application/json: 
+                schema: 
+                  $ref: "#/components/schemas/error-401"
+                examples: null
+          "422": 
+            description: "Unprocessable Entity"
+            content: 
+              application/json: 
+                schema: 
+                  $ref: "#/components/schemas/error-422"
+                examples: null
+          "500": 
+            description: "Internal Server Error"
+            content: 
+              application/json: 
+                schema: 
+                  $ref: "#/components/schemas/error-500"
+                examples: null
+    /user: 
+      get: 
+        summary: "getUser"
+        tags: 
+          - "users"
+        responses: 
+          "200": 
+            description: "OK"
+            content: 
+              application/json: 
+                schema: 
+                  $ref: "#/components/schemas/user"
+                examples: 
+                  Example 1: 
+                    value: 
+                      id: 1
+                      last_name: "Волков"
+                      name: "Геннадий"
+                      middle_name: "Федорович"
+                      company: "InnoStage"
+                      department: "Бизнес-решения"
+                      position: "Лучший сотрудник"
+                      phone: "string"
+                      email: "user@example.com"
+                      additional_info: "Любит животных"
+                      role: "Администратор"
+                      date_register: "18.08.2023 12:20:25"
+                      photo: "/upload/main/9df/hvxt9k9mcjp0xc7vk4kbrrqdbn49baxx.png"
+                      supervised_organizations: 
+                        - 
+                          id: 1
+                          name: "Международная организация"
+          "404": 
+            description: "Not found"
+        operationId: "get-user-profile"
+        description: "Получение информации о своем профиле"
+        parameters: []
+        security: 
+          - 
+            login: []
+      parameters: []
+      post: 
+        summary: "updateUser"
+        tags: 
+          - "users"
+        operationId: "update-user-profile"
+        responses: 
+          "200": 
+            description: "OK"
+            content: 
+              application/json: 
+                schema: 
+                  type: "object"
+                  properties: 
+                    code: 
+                      type: "integer"
+                      default: 200
+                    message: 
+                      type: "string"
+                      default: "Данные обновлены"
+        description: "Обновление информации в профиле. Доступно только обновление информации и фотографии."
+        requestBody: 
+          content: 
+            multipart/form-data: 
+              schema: 
+                type: "object"
+                properties: 
+                  additional_info: 
+                    type: "string"
+                    description: "Дополнительная информация"
+                    maxLength: 256
+                    minLength: 0
+                    example: "Не любит животных"
+                    writeOnly: true
+                  photo: 
+                    type: "string"
+                    format: "binary"
+                    description: "Фото личного кабинета"
+                    writeOnly: true
+                  _method: 
+                    type: "string"
+                    default: "PATCH"
+                    example: "PATCH"
+                    description: "Битрикс не умеет в patch/put/delete без доп. параметра _method=\"{TYPE_OF_METHOD}\""
+                    writeOnly: true
+                required: 
+                  - "_method"
+              examples: 
+                Example 1: 
+                  value: 
+                    _method: "PATCH"
+                    addition_info: "new info"
+          description: "Обновление доп. инфы или фотографии. Сами по себе поля не являются обязательными с точки зрения ТЗ, но чтобы не было случайных пустых хождений по эндпоинту и случайных перезаписываний(проблема put/patch в битрикс - см. доп свойство _method=\"PATCH\") была поставлена валидация на required photo OR info."
+    /user/logout: 
+      get: 
+        summary: "logoutUser"
+        responses: 
+          "200": 
+            description: "OK"
+            content: 
+              application/json: 
+                schema: 
+                  type: "object"
+                  properties: 
+                    code: 
+                      type: "integer"
+                    message: 
+                      type: "string"
+                  x-examples: 
+                    Example 1: 
+                      code: 200
+                      message: "Успешно"
+                examples: 
+                  Example 1: 
+                    value: 
+                      code: 200
+                      message: "Успешно"
+          "401": 
+            description: "Unauthorized"
+            content: 
+              application/json: 
+                schema: 
+                  $ref: "#/components/schemas/error-401"
+          "500": 
+            description: "Internal Server Error"
+            content: 
+              application/json: 
+                schema: 
+                  $ref: "#/components/schemas/error-500"
+        operationId: "user-logout"
+        description: "Выход пользователя из системы"
+        tags: 
+          - "users"
+        x-internal: false
+  components: 
+    schemas: 
+      _file: 
+        title: "_file"
+        type: "object"
+        description: "Описание ссылок на файла и имена"
+        properties: 
+          name: 
+            type: "string"
+            description: "Имя файла"
+            example: "avatar.png"
+          url: 
+            type: "string"
+            description: "Ссылка на файл"
+            example: "upload/iblock/8d1/cb0j2yhe0afsi77vflncl9y22zqcfyg9.jpg"
+      user: 
+        title: "user"
+        x-stoplight: 
+          id: "mjsytphn368o7"
+        type: "object"
+        description: "Модель личного кабинета"
+        examples: 
+          - 
+            id: 1
+            last_name: "Волков"
+            name: "Геннадий"
+            middle_name: "Федорович"
+            company: "InnoStage"
+            department: "Бизнес-решения"
+            position: "Лучший сотрудник"
+            phone: "string"
+            email: "user@example.com"
+            additional_info: "Любит животных"
+            role: "Администратор"
+            date_register: "18.08.2023 12:20:25"
+            photo: "/upload/main/9df/hvxt9k9mcjp0xc7vk4kbrrqdbn49baxx.png"
+            supervised_organizations: 
+              - 
+                id: 1
+                name: "Международная организация"
+        properties: 
+          id: 
+            type: "integer"
+            minimum: 1
+            multipleOf: 1
+            description: "Id пользователя"
+            readOnly: true
+          last_name: 
+            type: "string"
+            description: "Фамилия"
+            example: "Волков"
+            maxLength: 50
+            minLength: 0
+            readOnly: true
+          name: 
+            type: "string"
+            description: "Имя"
+            example: "Геннадий"
+            minLength: 0
+            maxLength: 50
+            readOnly: true
+          middle_name: 
+            type: "string"
+            description: "Отчество"
+            maxLength: 50
+            minLength: 0
+            example: "Федорович"
+          company: 
+            type: "string"
+            description: "Компания"
+            minLength: 0
+            example: "InnoStage"
+            readOnly: true
+          department: 
+            type: "string"
+            description: "Департамент"
+            minLength: 0
+            example: "Бизнес-решения"
+            readOnly: true
+          position: 
+            type: "string"
+            description: "Должность"
+            example: "Лучший сотрудник"
+            minLength: 0
+            readOnly: true
+          phone: 
+            type: "string"
+            description: "Телефон"
+            readOnly: true
+          email: 
+            type: "string"
+            format: "email"
+            description: "e-mail"
+            readOnly: true
+          additional_info: 
+            type: "string"
+            description: "Дополнительная информация"
+            maxLength: 256
+            minLength: 0
+            example: "Любит животных"
+            readOnly: true
+          role: 
+            type: "string"
+            description: "Роль на портале"
+            example: "Администратор"
+            readOnly: true
+          date_register: 
+            type: "string"
+            example: "18.08.2023 12:20:25"
+            description: "Дата регистрации"
+            pattern: "^\\d{2}.\\d{2}.\\d{4} \\d{2}:\\d{2}:\\d{2}$"
+            readOnly: true
+          photo: 
+            type: "string"
+            description: "Фото в личном кабинете"
+            minLength: 0
+            example: "/upload/main/9df/hvxt9k9mcjp0xc7vk4kbrrqdbn49baxx.png"
+            readOnly: true
+          supervised_organizations: 
+            type: "array"
+            description: "Организации в зоне ответственности"
+            items: 
+              description: "Организация"
+              type: "object"
+              properties: 
+                id: 
+                  type: "integer"
+                  minimum: 1
+                  multipleOf: 1
+                  description: "Id организации"
+                  readOnly: true
+                name: 
+                  type: "string"
+                  description: "Наименование организации"
+                  readOnly: true
+            readOnly: true
+      short-user: 
+        title: "short-user"
+        x-stoplight: 
+          id: "3xcfw7cerfl7s"
+        type: "object"
+        description: "Краткое описание пользователя"
+        examples: 
+          - 
+            id: 0
+            name: "string"
+            last_name: "string"
+            second_name: "string"
+            phone: "string"
+            email: "string"
+        properties: 
+          id: 
+            type: "integer"
+            description: "ID"
+            readOnly: true
+          name: 
+            type: "string"
+            description: "Имя"
+            readOnly: true
+          last_name: 
+            type: "string"
+            description: "Фамилия"
+          second_name: 
+            type: "string"
+            description: "Отчество"
+          phone: 
+            type: "string"
+            description: "Телефон"
+            readOnly: true
+          email: 
+            type: "string"
+            description: "e-mail"
+            readOnly: true
+        required: 
+          - "id"
+      settings-number-network-names: 
+        title: "settings-number-network-names"
+        type: "object"
+        description: "Описание полей количества строк IP и доменных имен"
+        properties: 
+          number_of_ip_addresses: 
+            type: "integer"
+            description: "Количество IP адресов"
+            example: 10
+          number_of_balancer_ip_addresses: 
+            type: "integer"
+            description: "Количество IP адресов балансировщиков"
+            example: 10
+          number_of_domain_names: 
+            type: "integer"
+            description: "Количество доменных имен"
+            example: 10
+      scanning-vulnerability: 
+        title: "scanning-vulnerability"
+        type: "object"
+        description: "Описание полей уязвимости найденные сканерами"
+        properties: 
+          id: 
+            type: "integer"
+            description: "Формируется автоматически (сквозной номер)"
+            example: 1
+          rvision_id: 
+            type: "string"
+            description: "ID уязвимости в Rvision"
+            example: "83582985-ad91-3616-bfc0-6ff6474a69a5"
+          status: 
+            type: "string"
+            enum: 
+              - "Устранена"
+              - "Открыта"
+            description: "Статус"
+            example: "Открыта"
+          type: 
+            type: "string"
+            description: "Тип"
+            nullable: true
+            example: "Недостаточная проверка вводимых данных"
+          vulnerability_id: 
+            type: "string"
+            description: "ID уязвимости в сканере"
+            example: "83582985-ad91-3616-bfc0-6ff6474a69a5"
+          vulnerability_name: 
+            type: "string"
+            description: "Наименование"
+            example: "Уязвимость компонента PL/SQL системы управления базами данных Oracle Database Server, позволяющая нарушителю получить несанкционированный доступ к защищаемым данным или получить доступ на изменение, добавление или удаление защищаемых данных"
+          description: 
+            type: "string"
+            description: "Краткое описание уязвимости"
+            nullable: true
+            example: "Уязвимость компонента PL/SQL системы управления базами данных Oracle Database Server связана с недостаточной проверкой входных данных. Эксплуатация уязвимости может позволить нарушителю, действующему удаленно, получить несанкционированный доступ к защищаемым данным или получить доступ на изменение, добавление или удаление защищаемых данных"
+          vulnerability_criticality: 
+            type: "string"
+            nullable: true
+            description: "Критичность"
+            example: "Вредоносная активность не обнаружена"
+          discovered_at: 
+            type: "string"
+            nullable: true
+            description: "Дата обнаружения"
+            example: "2021-01-22"
+          cvssv2: 
+            type: "number"
+            format: "float"
+            description: "CVSS V2"
+            nullable: true
+            example: 5.8
+          cvssv3: 
+            type: "number"
+            format: "float"
+            description: "CVSS V3"
+            nullable: true
+            example: 5.9
+          vector_v2: 
+            type: "string"
+            description: "Вектор V2"
+            nullable: true
+            example: "AV:N/AC:L/Au:M/C:P/I:P/A:P"
+          vector_v3: 
+            type: "string"
+            description: "Вектор V3"
+            nullable: true
+            example: "AV:N/AC:L/PR:H/UI:R/S:C/C:L/I:L/A:L"
+          domain: 
+            type: "string"
+            description: "Домен"
+            nullable: true
+            example: "oracle.com"
+          host_ip: 
+            type: "string"
+            description: "IP-адрес хоста"
+            example: "95.101.178.195"
+          port: 
+            type: "integer"
+            minimum: 1
+            maximum: 65535
+            description: "Формируется автоматически (сквозной номер)"
+            example: 8080
+          host_name: 
+            type: "string"
+            description: "Имя хоста"
+            nullable: true
+            example: "https://www.oracle.com"
+          identification_src: 
+            type: "string"
+            description: "Источник"
+            nullable: true
+            example: "https://www.oracle.com/security-alerts/cpuoct2023.html"
+          cve: 
+            type: "string"
+            description: "CVE"
+            nullable: true
+            example: "https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-22071"
+          bdu_fstec: 
+            type: "string"
+            description: "БДУ"
+            nullable: true
+            example: "https://bdu.fstec.ru/vul/2023-06901"
+          references: 
+            type: "array"
+            description: "Ссылки"
+            nullable: true
+            items: 
+              type: "object"
+              properties: 
+                source: 
+                  type: "string"
+                  description: ""
+                  example: "NATIONAL VULNERABILITY DATABASE"
+                url: 
+                  type: "string"
+                  description: ""
+                  example: "https://nvd.nist.gov/vuln/detail/CVE-2023-22071"
+          software_vulnerabilities: 
+            type: "array"
+            description: "Ссылки"
+            nullable: true
+            items: 
+              type: "object"
+              properties: 
+                cpe: 
+                  type: "string"
+                  description: ""
+                  example: "Oracle Corp."
+                name: 
+                  type: "string"
+                  description: ""
+                  example: "Database Server"
+                path: 
+                  type: "string"
+                  description: ""
+                  example: "/"
+                version: 
+                  type: "string"
+                  description: ""
+                  example: "от 19.3 до 19.19 включительно"
+          dit_inc_result: 
+            type: "string"
+            description: "Результат обработки"
+            nullable: true
+            example: "Данные уточняются"
+          removal_recommend: 
+            type: "string"
+            description: "Рекомендации по устранению"
+            nullable: true
+            example: "https://www.oracle.com/security-alerts/cpuoct2023.html"
+      regulation: 
+        title: "regulation"
+        x-stoplight: 
+          id: "2d3g51pu96d73"
+        type: "object"
+        examples: 
+          - 
+            id: 0
+            regulation_type: 
+              id: 0
+              name: "string"
+            organization: 
+              id: 0
+              name: "string"
+            name: "string"
+            approval_date: "ГГГГ-ММ-ДД"
+            effective_date: "ГГГГ-ММ-ДД"
+            file: "string"
+            link: "string"
+        description: "НПА"
+        properties: 
+          id: 
+            type: "integer"
+            description: "ID"
+            readOnly: true
+          regulation_type: 
+            $ref: "#/components/schemas/regulation-type"
+            description: "Тип НПА"
+          organization: 
+            $ref: "#/components/schemas/organization"
+            description: "Организация"
+          name: 
+            type: "string"
+            description: "Название"
+          approval_date: 
+            type: "string"
+            description: "Дата утверждения"
+          effective_date: 
+            type: "string"
+            description: "Дата введения в действие"
+          file: 
+            type: "string"
+            description: "Ссылка на файл"
+          link: 
+            type: "string"
+            description: "Ссылка"
+        required: 
+          - "id"
+          - "regulation_type"
+          - "name"
+          - "approval_date"
+          - "effective_date"
+      regulation-type: 
+        title: "regulation-type"
+        x-stoplight: 
+          id: "xqwdq9fvh1iim"
+        type: "object"
+        examples: 
+          - 
+            id: 0
+            name: "string"
+        description: "Тип НПА"
+        properties: 
+          id: 
+            type: "integer"
+            description: "ID"
+            readOnly: true
+          name: 
+            type: "string"
+            description: "Название"
+      programming-language: 
+        title: "programming-language"
+        x-stoplight: 
+          id: "mjsytpss368o7"
+        type: "object"
+        description: "Язык программирования"
+        examples: 
+          - 
+            id: 0
+            name: "string"
+        properties: 
+          id: 
+            type: "integer"
+            description: "ID языка программирования"
+            readOnly: true
+          name: 
+            type: "string"
+            example: "Apex"
+            description: "Название языка программирования"
+            readOnly: true
+      organization: 
+        title: "organization"
+        x-stoplight: 
+          id: "rkr3r3w8sluwd"
+        type: "object"
+        examples: 
+          - 
+            id: 0
+            name: "string"
+        description: "Организация"
+        properties: 
+          id: 
+            type: "integer"
+            description: "ID"
+            readOnly: true
+          name: 
+            type: "string"
+            description: "Название"
+      notification: 
+        title: "notification"
+        x-stoplight: 
+          id: "mjsytpss368o7"
+        type: "object"
+        description: "Уведомления"
+        examples: 
+          - 
+            id: 1
+            title: "string"
+            content: "string"
+            created_at: "2019-08-24 14:15:22Z"
+        properties: 
+          id: 
+            type: "integer"
+            minimum: 1
+            multipleOf: 1
+            description: "Id уведомления"
+            readOnly: true
+          title: 
+            type: "string"
+            description: "Заголовок"
+            readOnly: true
+          content: 
+            type: "string"
+            description: "Текст уведомления"
+            maxLength: 256
+            minLength: 1
+            readOnly: true
+          created_at: 
+            type: "string"
+            description: "Дата"
+            format: "date-time"
+            pattern: "/^(\\d{4})-(\\d{2})-(\\d{2}) (\\d{2}):(\\d{2}):(\\d{2})$/"
+      methodological-document: 
+        title: "methodological-document"
+        x-stoplight: 
+          id: "1k9rb5b18goae"
+        type: "object"
+        examples: 
+          - 
+            id: 0
+            name: "string"
+            organization: 
+              id: 0
+              name: "string"
+            posted_at: "string"
+            file: "string"
+            direction: 
+              id: 0
+              name: "string"
+            requisites: "string"
+            is_acquainted: 0
+        description: "Методический документ"
+        properties: 
+          id: 
+            type: "integer"
+            description: "ID"
+            readOnly: true
+          name: 
+            type: "string"
+            description: "Название"
+          organization: 
+            $ref: "#/components/schemas/organization"
+            description: "Организация"
+          posted_at: 
+            type: "string"
+            description: "Дата размещения"
+          file: 
+            type: "string"
+            description: "Ссылка на файл"
+          direction: 
+            $ref: "#/components/schemas/direction"
+            description: "Направление"
+          requisites: 
+            type: "string"
+            description: "Реквизиты документа"
+          is_acquainted: 
+            type: "integer"
+            description: "Ознакомление"
+            minimum: 0
+            maximum: 1
+            example: 0
+            default: 0
+      instruction: 
+        title: "instruction"
+        x-stoplight: 
+          id: "n3uto8edygu6v"
+        type: "object"
+        examples: 
+          - 
+            id: 0
+            name: "string"
+            file: "string"
+        description: "Инструкция"
+        properties: 
+          id: 
+            type: "integer"
+            description: "ID"
+            readOnly: true
+          name: 
+            type: "string"
+            description: "Название"
+          file: 
+            type: "string"
+            description: "Ссылка на файл"
+      error-500: 
+        title: "500-internal-server-error"
+        type: "object"
+        description: "Внутренняя ошибка"
+        properties: 
+          message: 
+            description: "Сообщение об ошибке"
+            type: "string"
+            example: "Не авторизован"
+          code: 
+            type: "integer"
+            minimum: 1
+            multipleOf: 500
+            description: "Код ошибки"
+            example: 500
+      error-422: 
+        title: "422-unprocessable-entity"
+        type: "object"
+        description: "Запрос не прошёл валидацию"
+        properties: 
+          message: 
+            description: "Сообщение об ошибке"
+            type: "string"
+            example: "Не авторизован"
+          code: 
+            type: "integer"
+            minimum: 1
+            multipleOf: 422
+            description: "Код ошибки"
+            example: 422
+      error-404: 
+        title: "404-not-found"
+        type: "object"
+        description: "Не найден"
+        properties: 
+          message: 
+            description: "Сообщение об ошибке"
+            type: "string"
+            example: "Не авторизован"
+          code: 
+            type: "integer"
+            minimum: 1
+            multipleOf: 404
+            description: "Код ошибки"
+            example: 404
+      error-403: 
+        title: "403-forbidden"
+        type: "object"
+        description: "Запрещено"
+        properties: 
+          message: 
+            description: "Сообщение об ошибке"
+            type: "string"
+            example: "Не авторизован"
+          code: 
+            type: "integer"
+            minimum: 1
+            multipleOf: 403
+            description: "Код ошибки"
+            example: 403
+        examples: []
+      error-401: 
+        title: "401-unauthorized"
+        type: "object"
+        description: "Неавторизованно"
+        properties: 
+          message: 
+            description: "Сообщение об ошибке"
+            type: "string"
+            example: "Не авторизован"
+          code: 
+            type: "integer"
+            minimum: 1
+            multipleOf: 404
+            description: "Код ошибки"
+            example: 404
+        examples: []
+      error-200: 
+        title: "200-success"
+        type: "object"
+        description: "Успешно"
+        properties: 
+          message: 
+            description: "Сообщение ответа"
+            type: "string"
+            example: "Успешно"
+          code: 
+            type: "integer"
+            minimum: 1
+            multipleOf: 200
+            description: "Код ответа"
+            example: 200
+        examples: []
+      error: 
+        title: "error"
+        x-stoplight: 
+          id: "sa8ts91czgiby"
+        x-tags: 
+          - "errors"
+        type: "object"
+        description: "Модель данных ошибки ответа сервера"
+        properties: 
+          message: 
+            type: "string"
+            description: "Локализованное на руский язык, сообщение об ошибке, которое будет выведено пользователю."
+        required: 
+          - "message"
+      enquiry-scanning-vulnerability: 
+        title: "enquiry-scanning-vulnerability"
+        type: "object"
+        description: "Описание полей заявки на сканирование уязвимостей"
+        properties: 
+          id: 
+            type: "integer"
+            description: "Формируется автоматически (сквозной номер)"
+            example: 1
+          status: 
+            type: "string"
+            enum: 
+              - "Черновик"
+              - "На согласовании"
+              - "На корректировке"
+              - "Отклонена"
+              - "Согласована"
+              - "Ошибка сканирования"
+              - "Сканируется"
+              - "Сканирование завершено"
+              - "Ошибка при завершении"
+            description: "Статус заявки"
+            example: "Сканирование завершено"
+          initiator: 
+            $ref: "#/components/schemas/short-user"
+            description: "Инициатор"
+          created_at: 
+            type: "string"
+            description: "Дата создания"
+            example: "22.01.2021 11:39:10"
+          information_system: 
+            type: "string"
+            description: "Наименование информационной системы"
+            example: "Наименование информационной системы"
+          ip_addresses: 
+            type: "array"
+            description: "IP адреса"
+            nullable: true
+            items: 
+              description: "IP-адрес"
+              type: "string"
+              format: "ipv4"
+          balancer_ip_addresses: 
+            type: "array"
+            description: "IP адреса балансировщиков"
+            nullable: true
+            items: 
+              description: "IP-адрес балансировщика"
+              type: "string"
+              format: "ipv4"
+          domains: 
+            type: "array"
+            description: "Доменные имена"
+            nullable: true
+            items: 
+              description: "Доменное имя"
+              type: "string"
+              format: "hostname"
+          scanning_redcheck_started_at: 
+            type: "string"
+            nullable: true
+            example: "22.01.2021"
+            description: "Дата начала сканирования в RedCheck"
+          scanning_redcheck_ended_at: 
+            type: "string"
+            nullable: true
+            example: "24.01.2021"
+            description: "Дата завершения сканирования в RedCheck"
+          scanner: 
+            type: "string"
+            enum: 
+              - "Redcheck"
+              - "СКП"
+            description: "Сканер"
+            example: "Redcheck"
+          scanning_redcheck_period: 
+            type: "string"
+            enum: 
+              - "Ежемесячно"
+              - "Еженедельно"
+              - "Однократно"
+            description: "Периодичность сканирования"
+            example: "Однократно"
+          proof: 
+            type: "array"
+            description: "Подтверждение принадлежности адресов"
+            items: 
+              $ref: "#/components/schemas/_file"
+          comments: 
+            type: "array"
+            description: "Комментарии"
+            items: 
+              $ref: "#/components/schemas/comment"
+          job_id: 
+            type: "integer"
+            nullable: true
+            example: 1
+            description: "ID задания в RedCheck"
+      enquiry-file-analysis: 
+        title: "enquiry-file-analysis"
+        type: "object"
+        description: "Описание полей заявки на анализ потенциально вредоносного файла"
+        properties: 
+          id: 
+            type: "integer"
+            description: "Формируется автоматически (сквозной номер)"
+            example: 1
+          status: 
+            type: "string"
+            enum: 
+              - "В работе"
+              - "Выполнена"
+              - "Выполнена с ошибкой"
+              - "Архив"
+            description: "Статус заявки"
+            example: "Выполнена"
+          initiator: 
+            $ref: "#/components/schemas/short-user"
+            description: "Инициатор"
+          filename: 
+            type: "string"
+            description: "Имя проверяемого файла"
+            example: "ЛоготипБДУ.svg"
+          created_at: 
+            type: "string"
+            description: "Дата создания"
+            example: "2021-01-22 11:39:10"
+          description: 
+            type: "string"
+            description: "Описание файла, заполняемое пользователем"
+            nullable: true
+            example: "описание"
+          analysis_results: 
+            type: "string"
+            nullable: true
+            description: "Результаты анализа"
+            example: "Вредоносная активность не обнаружена"
+          is_editable: 
+            type: "boolean"
+            description: "Доступность редактирования поля Результаты анализа"
+            example: false
+          result_author: 
+            $ref: "#/components/schemas/short-user"
+            description: "Автор результата"
+            nullable: true
+          received_at: 
+            type: "string"
+            nullable: true
+            example: "2021-01-22 11:39:10"
+            description: "Дата получения результата"
+      enquiry-code-analysis: 
+        title: "enquiry-code-analysis"
+        x-stoplight: 
+          id: "mjsytpss368o7"
+        type: "object"
+        description: "Заявка на анализ исходного кода"
+        examples: 
+          - 
+            request_id: 0
+            initiator: 
+              id: 0
+              name: "string"
+              last_name: "string"
+              second_name: "string"
+              phone: "string"
+              email: "string"
+            programming_language: 
+              id: 0
+              name: "string"
+            file_name: "string"
+            description: "string"
+            status: "В работе"
+            created_at: "string"
+            is_editable: 0
+            result: "string"
+            result_author_id: 0
+            result_created_at: "2021-01-22 11:39:10"
+        properties: 
+          request_id: 
+            type: "integer"
+            description: "ID заявки"
+            readOnly: true
+          initiator: 
+            $ref: "#/components/schemas/short-user"
+            description: "Инициатор"
+          programming_language: 
+            $ref: "#/components/schemas/programming-language"
+            description: "ID языка программирования"
+          file_name: 
+            type: "string"
+            description: "Название файла"
+          description: 
+            type: "string"
+            description: "Описание"
+          status: 
+            type: "string"
+            description: "Статус"
+            default: "В работе"
+          created_at: 
+            type: "string"
+            description: "Дата создания"
+          is_editable: 
+            type: "integer"
+            description: "Признак редактируемости"
+            minimum: 0
+            maximum: 1
+            example: 0
+          result: 
+            type: "string"
+            description: "Результат анализа"
+          result_author: 
+            $ref: "#/components/schemas/short-user"
+            description: "Автор результата"
+          result_created_at: 
+            type: "string"
+            description: "Дата получения результата"
+            example: "2021-01-22 11:39:10"
+        required: 
+          - "request_id"
+          - "initiator"
+          - "programming_language"
+          - "file_name"
+          - "status"
+          - "created_at"
+          - "is_editable"
+      direction: 
+        title: "direction"
+        x-stoplight: 
+          id: "6rv7rqneucntg"
+        type: "object"
+        examples: 
+          - 
+            id: 0
+            name: "string"
+        description: "Направление"
+        properties: 
+          id: 
+            type: "integer"
+            description: "ID"
+            readOnly: true
+          name: 
+            type: "string"
+            description: "Название"
+      pagination: 
+        title: "pagination"
+        type: "object"
+        description: "Пагинация"
+        properties: 
+          current_page: 
+            type: "integer"
+            description: "Текущая страница"
+          last_page: 
+            type: "integer"
+            description: "Последняя страница"
+          per_page: 
+            type: "integer"
+            description: "Максимальное кол-во записей"
+      comment: 
+        title: "comment"
+        type: "object"
+        description: "Описание полей комментария"
+        properties: 
+          id: 
+            type: "integer"
+            description: "Формируется автоматически (сквозной номер)"
+            example: 1
+          author: 
+            $ref: "#/components/schemas/short-user"
+            description: "Автор комментария"
+          text: 
+            type: "string"
+            description: "Текст комментария"
+            example: "Пример текста комментария"
+          created_at: 
+            type: "string"
+            description: "Дата создания"
+            example: "24.01.2021 11:39:10"
+      bulletin: 
+        title: "bulletin"
+        x-stoplight: 
+          id: "75wvh52frq55q"
+        type: "object"
+        description: "Бюллетень"
+        examples: 
+          - 
+            id: 1
+            vulnerability_id: "string"
+            vulnerability_description: "string"
+            software_manufacturer: "string"
+            vulnerable_product: "string"
+            vulnerable_product_category: "string"
+            danger_level: "string"
+            attack_vector: "string"
+            possible_consequences: "string"
+            software_error: "string"
+            vulnerability_exploitation_method: "string"
+            user_interaction: "string"
+            detected_at: "18.10.2023 10:22:45"
+            last_vulnerability_updated_at: "18.10.2023 10:22:45"
+            update_availability: "string"
+            sources: "string"
+            note: "string"
+            pdf_file: "string"
+            created_at: "18.10.2023 10:22:45"
+        properties: 
+          id: 
+            type: "integer"
+            minimum: 1
+            multipleOf: 1
+            description: "Id"
+            readOnly: true
+          vulnerability_id: 
+            type: "string"
+            maxLength: 256
+            minLength: 1
+            description: "Идентификатор уязвимости"
+            readOnly: true
+          vulnerability_description: 
+            type: "string"
+            maxLength: 256
+            minLength: 1
+            description: "Описание уязвимости"
+            readOnly: true
+          software_manufacturer: 
+            type: "string"
+            maxLength: 256
+            minLength: 1
+            description: "Производитель ПО"
+            readOnly: true
+          vulnerable_product: 
+            type: "string"
+            maxLength: 256
+            minLength: 1
+            description: "Уязвимый продукт"
+            readOnly: true
+          vulnerable_product_category: 
+            type: "string"
+            maxLength: 256
+            minLength: 1
+            description: "Категория уязвимого продукта"
+            readOnly: true
+          danger_level: 
+            type: "string"
+            maxLength: 256
+            minLength: 1
+            description: "Уровень опасности"
+            readOnly: true
+          attack_vector: 
+            type: "string"
+            maxLength: 256
+            minLength: 1
+            description: "Вектор атаки"
+            readOnly: true
+          possible_consequences: 
+            type: "string"
+            maxLength: 256
+            minLength: 1
+            description: "Возможные последствия"
+            readOnly: true
+          software_error: 
+            type: "string"
+            maxLength: 256
+            minLength: 1
+            description: "Программная ошибка"
+            readOnly: true
+          vulnerability_exploitation_method: 
+            type: "string"
+            maxLength: 256
+            minLength: 1
+            description: "Метод эксплуатации уязвимости"
+            readOnly: true
+          user_interaction: 
+            type: "string"
+            maxLength: 256
+            minLength: 1
+            description: "Взаимодействие с пользователем"
+            readOnly: true
+          detected_at: 
+            type: "string"
+            maxLength: 256
+            minLength: 1
+            description: "Дата выявления"
+            example: "18.10.2023 10:22:45"
+            readOnly: true
+          last_vulnerability_updated_at: 
+            type: "string"
+            maxLength: 256
+            minLength: 1
+            description: "Дата последнего обновления информации об уязвимости"
+            example: "18.10.2023 10:22:45"
+            readOnly: true
+          update_availability: 
+            type: "string"
+            maxLength: 256
+            minLength: 1
+            description: "Наличие обновления"
+            readOnly: true
+          sources: 
+            type: "string"
+            maxLength: 256
+            minLength: 1
+            description: "Источники"
+            readOnly: true
+          note: 
+            type: "string"
+            maxLength: 256
+            minLength: 1
+            description: "Примечание"
+            readOnly: true
+          pdf_file: 
+            type: "string"
+            maxLength: 256
+            minLength: 1
+            description: "Ссылка на PDF файл"
+            readOnly: true
+          created_at: 
+            type: "string"
+            example: "18.10.2023 10:22:45"
+            description: "Создан"
+    parameters: {}
+    securitySchemes: 
+      login: 
+        type: "http"
+        scheme: "basic"
+        description: "Базовая авторизация через битрикс. Нужна специальная доработка."
+    requestBodies: {}
+    security: 
+      - 
+        login: []

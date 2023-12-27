@@ -1,0 +1,20 @@
+title: instruction
+x-stoplight:
+  id: n3uto8edygu6v
+type: object
+examples:
+  - id: 0
+    name: string
+    file: string
+description: Инструкция
+properties:
+  id:
+    type: integer
+    description: ID
+    readOnly: true
+  name:
+    type: string
+    description: Название
+  file:
+    type: string
+    description: Ссылка на файл

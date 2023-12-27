@@ -1,0 +1,14 @@
+title: 404-not-found
+type: object
+description: Не найден
+properties:
+  message:
+    description: Сообщение об ошибке
+    type: string
+    example: Не авторизован
+  code:
+    type: integer
+    minimum: 1
+    multipleOf: 404
+    description: Код ошибки
+    example: 404

@@ -1,0 +1,66 @@
+.buid_template:
+  script: &build_front
+    # add suffix
+    - version=1.0.0
+    # Create image docker
+    - npm ci
+    - npm run build
+    - mkdir -p /etc/docker/certs.d/ /root/.docker
+    - (echo "$cacertDockerRegistry" | base64 -d) > /etc/docker/certs.d/repoDockerScrt.crt
+    - mv -f docker/Dockerfile .
+    - ls -la
+    - (echo "$userpassDockerRegistry" | base64 -d) > /root/.docker/config.json
+    - docker build --load -t docker-hub.it-cloud.tech:5006/dit-apidocs-web/dev/frontend:$version .
+    - docker push docker-hub.it-cloud.tech:5006/dit-apidocs-web/dev/frontend:$version
+
+.docker_registry:
+  before_script:
+    - mkdir -p /etc/docker/certs.d/ /root/.docker
+    - (echo "$cacertDockerRegistry" | base64 -d) > /etc/docker/certs.d/repoDockerScrt.crt
+    - (echo "$userpassDockerRegistry" | base64 -d) > /root/.docker/config.json
+
+image: docker-hub.it-cloud.tech:5006/infra/node-builder:18.17
+
+stages:
+  - flow
+  - build
+
+commitlint:
+  stage: flow
+  extends:
+    - .docker_registry
+  tags:
+    - docker-24.0.2-git
+  cache:
+    key: $CI_COMMIT_REF_SLUG
+    paths:
+      - node_modules/
+  interruptible: true
+  only:
+    - merge_requests
+  script:
+    # add certificates
+    - cp docker/ssl/* /usr/local/share/ca-certificates/ # сертификаты для yarn
+    - update-ca-certificates
+    - npm install
+    - git fetch
+    - git cherry -v origin/$CI_MERGE_REQUEST_TARGET_BRANCH_NAME | grep + | awk '$0=$2' | while read -r line; do git show --format='%s%+b' -s $line|yarn commitlint ; done
+
+build:
+  rules:
+    - if: $CI_COMMIT_REF_NAME == 'master' && $CI_PIPELINE_SOURCE == 'push'
+      when: always
+    - when: manual
+  stage: build
+  tags:
+    - docker-24.0.2-git
+  cache:
+    key: $CI_COMMIT_REF_SLUG
+    paths:
+      - node_modules/
+  before_script:
+    - *build_front
+  script:
+    - ssh $user_dev@$ip_dev 'docker stop dit-apidocs-web || true && docker rm dit-apidocs-web || true'
+    - ssh $user_dev@$ip_dev 'docker pull docker-hub.it-cloud.tech:5006/dit-apidocs-web/dev/frontend:1.0.0'    
+    - ssh $user_dev@$ip_dev 'docker run -d --name dit-apidocs-web  -p 100:80 docker-hub.it-cloud.tech:5006/dit-apidocs-web/dev/frontend:1.0.0'

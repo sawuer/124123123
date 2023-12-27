@@ -1,0 +1,72 @@
+openapi: 3.1.0
+x-stoplight:
+  id: 3ea92teoens2s
+tags:
+  - name: directions
+    description: Направления
+info:
+  title: Направления
+  description: Направления
+  version: '1.0'
+  contact:
+    name: Абдурайимов Эльмар Нариманович
+    email: elmar.abdurayimov@innostage-group.ru
+servers:
+  - url: 'http://127.0.0.1/api'
+    description: test
+  - url: 'http://10.70.41.64/api'
+    description: dev
+paths:
+  /directions:
+    get:
+      summary: indexDirections
+      responses:
+        '200':
+          description: Список направлений
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items:
+                      $ref: ../models/direction.yaml
+              examples:
+                Example 1:
+                  value:
+                    data:
+                      - id: 1
+                        name: ГИС
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: ../models/errors/error-401.yaml
+              examples: {}
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: ../models/errors/error-500.yaml
+              examples: {}
+      operationId: indexDirections
+      description: Получение всех направлений
+      parameters: []
+      security:
+        - login: []
+      tags:
+        - directions
+    parameters: []
+components:
+  parameters: {}
+  securitySchemes:
+    login:
+      type: http
+      scheme: basic
+      description: Базовая авторизация через битрикс. Нужна специальная доработка.
+  requestBodies: {}
+security:
+  - login: []

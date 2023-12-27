@@ -1,0 +1,155 @@
+openapi: 3.1.0
+x-stoplight:
+  id: hu7xo3pufzlkq
+info:
+  title: UsersApi
+  description: Api для личного кабинета
+  version: '1.0'
+  contact:
+    name: Arseniy
+servers:
+  - url: 'http://127.0.0.1/api'
+    description: dev
+paths:
+  /user:
+    get:
+      summary: getUser
+      tags:
+        - users
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: ../models/user.yaml
+              examples:
+                Example 1:
+                  value:
+                    id: 1
+                    last_name: Волков
+                    name: Геннадий
+                    middle_name: Федорович
+                    company: InnoStage
+                    department: Бизнес-решения
+                    position: Лучший сотрудник
+                    phone: string
+                    email: user@example.com
+                    additional_info: Любит животных
+                    role: Администратор
+                    date_register: '18.08.2023 12:20:25'
+                    photo: /upload/main/9df/hvxt9k9mcjp0xc7vk4kbrrqdbn49baxx.png
+                    supervised_organizations:
+                      - id: 1
+                        name: Международная организация
+        '404':
+          description: Not found
+      operationId: get-user-profile
+      description: Получение информации о своем профиле
+      parameters: []
+      security:
+        - login: []
+    parameters: []
+    post:
+      summary: updateUser
+      tags:
+        - users
+      operationId: update-user-profile
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  code:
+                    type: integer
+                    default: 200
+                  message:
+                    type: string
+                    default: Данные обновлены
+      description: Обновление информации в профиле. Доступно только обновление информации и фотографии.
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                additional_info:
+                  type: string
+                  description: Дополнительная информация
+                  maxLength: 256
+                  minLength: 0
+                  example: Не любит животных
+                  writeOnly: true
+                photo:
+                  type: string
+                  format: binary
+                  description: Фото личного кабинета
+                  writeOnly: true
+                _method:
+                  type: string
+                  default: PATCH
+                  example: PATCH
+                  description: 'Битрикс не умеет в patch/put/delete без доп. параметра _method="{TYPE_OF_METHOD}"'
+                  writeOnly: true
+              required:
+                - _method
+            examples:
+              Example 1:
+                value:
+                  _method: PATCH
+                  addition_info: new info
+        description: 'Обновление доп. инфы или фотографии. Сами по себе поля не являются обязательными с точки зрения ТЗ, но чтобы не было случайных пустых хождений по эндпоинту и случайных перезаписываний(проблема put/patch в битрикс - см. доп свойство _method="PATCH") была поставлена валидация на required photo OR info.'
+  /user/logout:
+    get:
+      summary: logoutUser
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  code:
+                    type: integer
+                  message:
+                    type: string
+                x-examples:
+                  Example 1:
+                    code: 200
+                    message: Успешно
+              examples:
+                Example 1:
+                  value:
+                    code: 200
+                    message: Успешно
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: ../models/errors/error-401.yaml
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: ../models/errors/error-500.yaml
+      operationId: user-logout
+      description: Выход пользователя из системы
+      tags:
+        - users
+      x-internal: false
+components:
+  parameters: {}
+  securitySchemes:
+    login:
+      type: http
+      scheme: basic
+      description: Базовая авторизация через битрикс. Нужна специальная доработка.
+  requestBodies: {}
+security:
+  - login: []

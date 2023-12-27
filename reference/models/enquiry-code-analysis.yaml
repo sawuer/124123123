@@ -1,0 +1,73 @@
+title: enquiry-code-analysis
+x-stoplight:
+  id: mjsytpss368o7
+type: object
+description: Заявка на анализ исходного кода
+examples:
+  - request_id: 0
+    initiator:
+      id: 0
+      name: string
+      last_name: string
+      second_name: string
+      phone: string
+      email: string
+    programming_language:
+      id: 0
+      name: string
+    file_name: string
+    description: string
+    status: В работе
+    created_at: string
+    is_editable: 0
+    result: string
+    result_author_id: 0
+    result_created_at: '2021-01-22 11:39:10'
+properties:
+  request_id:
+    type: integer
+    description: ID заявки
+    readOnly: true
+  initiator:
+    $ref: ./short-user.yaml
+    description: Инициатор
+  programming_language:
+    $ref: ./programming-language.yaml
+    description: ID языка программирования
+  file_name:
+    type: string
+    description: Название файла
+  description:
+    type: string
+    description: Описание
+  status:
+    type: string
+    description: Статус
+    default: В работе
+  created_at:
+    type: string
+    description: Дата создания
+  is_editable:
+    type: integer
+    description: Признак редактируемости
+    minimum: 0
+    maximum: 1
+    example: 0
+  result:
+    type: string
+    description: Результат анализа
+  result_author:
+    $ref: ./short-user.yaml
+    description: Автор результата
+  result_created_at:
+    type: string
+    description: Дата получения результата
+    example: '2021-01-22 11:39:10'
+required:
+  - request_id
+  - initiator
+  - programming_language
+  - file_name
+  - status
+  - created_at
+  - is_editable

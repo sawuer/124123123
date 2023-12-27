@@ -1,0 +1,16 @@
+title: organization
+x-stoplight:
+  id: rkr3r3w8sluwd
+type: object
+examples:
+  - id: 0
+    name: string
+description: Организация
+properties:
+  id:
+    type: integer
+    description: ID
+    readOnly: true
+  name:
+    type: string
+    description: Название

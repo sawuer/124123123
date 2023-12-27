@@ -1,0 +1,12 @@
+title: _file
+type: object
+description: Описание ссылок на файла и имена
+properties:
+  name:
+    type: string
+    description: Имя файла
+    example: avatar.png
+  url:
+    type: string
+    description: Ссылка на файл
+    example: upload/iblock/8d1/cb0j2yhe0afsi77vflncl9y22zqcfyg9.jpg

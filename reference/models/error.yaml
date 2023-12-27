@@ -1,0 +1,13 @@
+title: error
+x-stoplight:
+  id: sa8ts91czgiby
+x-tags:
+  - errors
+type: object
+description: Модель данных ошибки ответа сервера
+properties:
+  message:
+    type: string
+    description: 'Локализованное на руский язык, сообщение об ошибке, которое будет выведено пользователю.'
+required:
+  - message

@@ -1,0 +1,15 @@
+title: 401-unauthorized
+type: object
+description: Неавторизованно
+properties:
+  message:
+    description: Сообщение об ошибке
+    type: string
+    example: Не авторизован
+  code:
+    type: integer
+    minimum: 1
+    multipleOf: 404
+    description: Код ошибки
+    example: 404
+examples: []

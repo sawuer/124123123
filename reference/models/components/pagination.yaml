@@ -1,0 +1,13 @@
+title: pagination
+type: object
+description: Пагинация
+properties:
+  current_page:
+    type: integer
+    description: Текущая страница
+  last_page:
+    type: integer
+    description: Последняя страница
+  per_page:
+    type: integer
+    description: Максимальное кол-во записей

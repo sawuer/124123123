@@ -1,0 +1,241 @@
+openapi: 3.1.0
+x-stoplight:
+  id: nxuzhss5c3eez
+info:
+  title: Бюллетени
+  description: НПА
+  version: '1.0'
+  contact:
+    name: Абдурайимов Эльмар Нариманович
+    email: elmar.abdurayimov@innostage-group.ru
+servers:
+  - url: 'http://127.0.0.1/api'
+    description: test
+  - url: 'http://10.70.41.64/api'
+    description: dev
+paths:
+  /bulletins:
+    get:
+      summary: indexBulletins
+      responses:
+        '200':
+          description: Список бюллетеней
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - properties:
+                      data:
+                        type: array
+                        items:
+                          $ref: ../models/bulletin.yaml
+                  - $ref: ../models/components/pagination.yaml
+                type: object
+                required:
+                  - data
+                  - current_page
+                  - last_page
+                  - per_page
+              examples:
+                Example 1:
+                  value:
+                    data:
+                      - id: 1
+                        vulnerability_id: string
+                        vulnerability_description: string
+                        software_manufacturer: string
+                        vulnerable_product: string
+                        vulnerable_product_category: string
+                        danger_level: string
+                        attack_vector: string
+                        possible_consequences: string
+                        software_error: string
+                        vulnerability_exploitation_method: string
+                        user_interaction: string
+                        detected_at: '18.10.2023 10:22:45'
+                        last_vulnerability_updated_at: '18.10.2023 10:22:45'
+                        update_availability: string
+                        sources: string
+                        note: string
+                        pdf_file: string
+                        created_at: '18.10.2023 10:22:45'
+                    current_page: 0
+                    last_page: 0
+                    per_page: 0
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: ../models/errors/error-401.yaml
+              examples: {}
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: ../models/errors/error-500.yaml
+              examples: {}
+      operationId: indexBulletins
+      description: Получение всех бюллетеней
+      parameters:
+        - schema:
+            type: string
+            example: '2023-10-18'
+          in: query
+          description: Дата создания
+          name: created_at_from
+        - schema:
+            type: string
+            example: '2023-10-18'
+          in: query
+          name: created_at_to
+          description: Дата создания
+        - schema:
+            type: string
+          in: query
+          name: vulnerability_id
+          description: Идентификатор уязвимости
+        - schema:
+            type: string
+          in: query
+          name: vulnerable_product
+          description: Уязвимый продукт
+        - schema:
+            type: string
+          in: query
+          name: danger_level
+          description: Уровень опасности
+        - schema:
+            type: string
+          in: query
+          name: attack_vector
+          description: Вектор атаки
+        - schema:
+            type: string
+          in: query
+          name: update_availability
+          description: Наличие обновления
+        - schema:
+            type: integer
+            minimum: 10
+          in: query
+          name: per_page
+          description: Кол-во элементов на странице
+        - schema:
+            type: integer
+            minimum: 1
+          in: query
+          description: Номер страницы
+          name: page
+        - schema:
+            type: string
+            default: id
+            enum:
+              - id
+              - vulnerability_id
+              - vulnerability_description
+              - software_manufacturer
+              - vulnerable_product
+              - vulnerable_product_category
+              - danger_level
+              - attack_vector
+              - possible_consequences
+              - vulnerability_exploitation_method
+              - user_interaction
+              - detected_at
+              - last_vulnerability_updated_at
+              - update_availability
+              - sources
+          in: query
+          name: sort_field
+          description: Колонка для сортировки
+        - schema:
+            type: string
+            default: asc
+            enum:
+              - asc
+              - desc
+          in: query
+          name: sort_order
+          description: Направление сортировки
+      security:
+        - login: []
+      tags:
+        - bulletins
+    parameters: []
+  '/bulletins/{id}':
+    parameters:
+      - schema:
+          type: string
+        name: id
+        in: path
+        required: true
+    get:
+      summary: showBulletin
+      operationId: showBulletin
+      responses:
+        '200':
+          description: Бюллетень найден
+          content:
+            application/json:
+              schema:
+                $ref: ../models/bulletin.yaml
+              examples:
+                Example 1:
+                  value:
+                    id: 1
+                    vulnerability_id: string
+                    vulnerability_description: string
+                    software_manufacturer: string
+                    vulnerable_product: string
+                    vulnerable_product_category: string
+                    danger_level: string
+                    attack_vector: string
+                    possible_consequences: string
+                    software_error: string
+                    vulnerability_exploitation_method: string
+                    user_interaction: string
+                    detected_at: '18.10.2023 10:22:45'
+                    last_vulnerability_updated_at: '18.10.2023 10:22:45'
+                    update_availability: string
+                    sources: string
+                    note: string
+                    pdf_file: string
+                    created_at: '18.10.2023 10:22:45'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: ../models/errors/error-401.yaml
+              examples: {}
+        '404':
+          description: Not found
+          content:
+            application/json:
+              schema:
+                $ref: ../models/errors/error-404.yaml
+              examples: {}
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: ../models/errors/error-500.yaml
+              examples: {}
+      tags:
+        - bulletins
+      description: Просмотр бюллетеня
+components:
+  parameters: {}
+  securitySchemes:
+    login:
+      type: http
+      scheme: basic
+      description: Базовая авторизация через битрикс. Нужна специальная доработка.
+  requestBodies: {}
+security:
+  - login: []
+tags:
+  - name: bulletins

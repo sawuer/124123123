@@ -1,0 +1,135 @@
+openapi: 3.1.0
+x-stoplight:
+  id: hu7xo3asdzlkq
+info:
+  title: Уведомления
+  description: API для уведомлений
+  version: '1.0'
+  contact:
+    name: Абдурайимов Эльмар Нариманович
+    email: elmar.abdurayimov@innostage-group.ru
+servers:
+  - url: 'http://127.0.0.1/api'
+    description: test
+  - url: 'http://10.70.41.64/api'
+    description: dev
+paths:
+  /notifications:
+    get:
+      summary: indexNotifications
+      tags:
+        - notifications
+      responses:
+        '200':
+          description: Список уведомлений
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - properties:
+                      data:
+                        type: array
+                        items:
+                          $ref: ../models/notification.yaml
+                  - $ref: ../models/components/pagination.yaml
+                type: object
+              examples:
+                Example 1:
+                  value:
+                    data:
+                      - id: 1
+                        user_id: 2
+                        content: Текст уведомления
+                    current_page: 0
+                    last_page: 0
+                    per_page: 10
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: ../models/errors/error-401.yaml
+              examples: {}
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: ../models/errors/error-500.yaml
+              examples: {}
+      operationId: indexNotifications
+      description: Получение всех уведомлений
+      parameters:
+        - schema:
+            type: integer
+            minimum: 10
+          in: query
+          name: per_page
+          minimum: 10
+          description: Кол-во элементов на странице
+        - schema:
+            type: integer
+            minimum: 1
+          in: query
+          name: page
+          minimum: 1
+          description: Номер страницы
+      security:
+        - login: []
+    parameters: []
+  /notifications/unread:
+    get:
+      summary: indexUnreadNotifications
+      tags:
+        - notifications
+      responses:
+        '200':
+          description: Список непрочитанных уведомлений
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items:
+                      $ref: ../models/notification.yaml
+              examples:
+                Example 1:
+                  value:
+                    data:
+                      - id: 1
+                        user_id: 2
+                        content: Текст уведомления
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: ../models/errors/error-401.yaml
+              examples: {}
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: ../models/errors/error-500.yaml
+              examples: {}
+      operationId: indexUnreadNotifications
+      description: Получение всех непрочитанных уведомлений
+      parameters: []
+      security:
+        - login: []
+    parameters: []
+components:
+  parameters: {}
+  securitySchemes:
+    login:
+      type: http
+      scheme: basic
+      description: Базовая авторизация через битрикс. Нужна специальная доработка.
+  requestBodies: {}
+security:
+  - login: []
+tags:
+  - name: notifications

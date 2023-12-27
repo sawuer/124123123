@@ -1,0 +1,423 @@
+openapi: 3.1.0
+x-stoplight:
+  id: n73e1ycqfj4al
+info:
+  title: Методический документы
+  description: Методический документы
+  version: '1.0'
+  contact:
+    name: Абдурайимов Эльмар Нариманович
+    email: elmar.abdurayimov@innostage-group.ru
+servers:
+  - url: 'http://127.0.0.1/api'
+    description: test
+  - url: 'http://10.70.41.64/api'
+    description: dev
+paths:
+  /methodological-documents:
+    get:
+      summary: indexMethodologicalDocuments
+      responses:
+        '200':
+          description: Список методических документов
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - properties:
+                      data:
+                        type: array
+                        items:
+                          $ref: ../models/methodological-document.yaml
+                  - $ref: ../models/components/pagination.yaml
+                type: object
+                required:
+                  - data
+                  - current_page
+                  - last_page
+                  - per_page
+              examples:
+                Example 1:
+                  value:
+                    data:
+                      - id: 0
+                        name: string
+                        organization:
+                          id: 0
+                          name: string
+                        posted_at: string
+                        file: string
+                        direction:
+                          id: 0
+                          name: string
+                        requisites: string
+                        is_acquainted: 0
+                    current_page: 0
+                    last_page: 0
+                    per_page: 0
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: ../models/errors/error-401.yaml
+              examples: {}
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: ../models/errors/error-500.yaml
+              examples: {}
+      operationId: indexMethodologicalDocuments
+      description: Получение всех методических документов
+      parameters:
+        - schema:
+            type: string
+          in: query
+          name: search
+          description: Поисковая строка
+        - schema:
+            type: array
+            uniqueItems: true
+          in: query
+          name: direction_ids
+          description: ID направлений
+        - schema:
+            type: string
+            pattern: '^\d{4}-\d{2}-\d{2}$'
+            format: date
+          in: query
+          name: posted_at
+          description: Дата размещения
+        - schema:
+            type: integer
+            minimum: 0
+            maximum: 1
+            example: 0
+          in: query
+          name: is_acquainted
+          description: Ознакомление
+        - schema:
+            type: integer
+            minimum: 10
+          in: query
+          name: per_page
+          description: Кол-во элементов на странице
+        - schema:
+            type: integer
+            minimum: 1
+          in: query
+          description: Номер страницы
+          name: page
+        - schema:
+            type: string
+            enum:
+              - id
+              - name
+              - posted_at
+              - direction_id
+              - organization_id
+              - is_acquainted
+            default: name
+          in: query
+          name: sort_field
+          description: Колонка для сортировки
+        - schema:
+            type: string
+            enum:
+              - asc
+              - desc
+            default: asc
+          in: query
+          name: sort_order
+          description: Направление сортировки
+      security:
+        - login: []
+      tags:
+        - methodological-documents
+    parameters: []
+    post:
+      summary: storeMethodologicalDocument
+      operationId: storeMethodologicalDocument
+      responses:
+        '200':
+          description: Методический документ создан
+          content:
+            application/json:
+              schema:
+                $ref: ../models/methodological-document.yaml
+              examples:
+                Example 1:
+                  value:
+                    id: 0
+                    name: string
+                    organization:
+                      id: 0
+                      name: string
+                    posted_at: string
+                    file: string
+                    direction:
+                      id: 0
+                      name: string
+                    requisites: string
+                    is_acquainted: 0
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: ../models/errors/error-401.yaml
+              examples: {}
+        '422':
+          description: Unprocessable entity
+          content:
+            application/json:
+              schema:
+                $ref: ../models/errors/error-422.yaml
+              examples: {}
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: ../models/errors/error-500.yaml
+              examples: {}
+      description: Создание методического документа
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                  description: Название
+                posted_at:
+                  type: string
+                  description: Дата размещения
+                  example: ГГГГ-ММ-ДД
+                file:
+                  type: string
+                  description: Ссылка на файл
+                requisites:
+                  type: string
+                  description: Реквизиты документа
+                organization_id:
+                  type: integer
+                  description: ID организации
+                direction_id:
+                  type: integer
+                  description: ID направления
+              required:
+                - name
+                - posted_at
+                - file
+                - direction_id
+            examples: {}
+      tags:
+        - methodological-documents
+  '/methodological-documents/{id}':
+    parameters:
+      - schema:
+          type: string
+        name: id
+        in: path
+        required: true
+        description: ID методического документа
+    patch:
+      summary: updateMethodologicalDocument
+      operationId: updateMethodologicalDocument
+      responses:
+        '200':
+          description: Методический документ обновлен
+          content:
+            application/json:
+              schema:
+                $ref: ../models/methodological-document.yaml
+              examples:
+                Example 1:
+                  value:
+                    id: 0
+                    name: string
+                    organization:
+                      id: 0
+                      name: string
+                    posted_at: string
+                    file: string
+                    direction:
+                      id: 0
+                      name: string
+                    requisites: string
+                    is_acquainted: 0
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: ../models/errors/error-401.yaml
+              examples: {}
+        '404':
+          description: Not found
+          content:
+            application/json:
+              schema:
+                $ref: ../models/errors/error-404.yaml
+              examples: {}
+        '422':
+          description: Unprocessable entity
+          content:
+            application/json:
+              schema:
+                $ref: ../models/errors/error-422.yaml
+              examples: {}
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: ../models/errors/error-500.yaml
+              examples: {}
+      description: Обновление методического документа по Id
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                organization_id:
+                  type: integer
+                  description: ID организации
+              required:
+                - organization_id
+            examples:
+              Example 1:
+                value:
+                  organization_id: 1
+      tags:
+        - methodological-documents
+    delete:
+      summary: deleteMethodologicalDocument
+      operationId: deleteMethodologicalDocument
+      responses:
+        '200':
+          description: Методический документ удален
+          content: {}
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: ../models/errors/error-401.yaml
+              examples: {}
+        '404':
+          description: Not found
+          content:
+            application/json:
+              schema:
+                $ref: ../models/errors/error-404.yaml
+              examples: {}
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: ../models/errors/error-500.yaml
+              examples: {}
+      description: Удаление методического документа по Id
+      tags:
+        - methodological-documents
+  '/methodological-documents/{id}/acquainted':
+    parameters:
+      - schema:
+          type: string
+        name: id
+        in: path
+        required: true
+        description: ID методического документа
+    patch:
+      summary: updateAcquaintedMethodologicalDocuments
+      operationId: updateAcquaintedMethodologicalDocuments
+      responses:
+        '200':
+          description: Значения чек-бокса "Ознакомление" изменено
+          content:
+            application/json:
+              schema:
+                $ref: ../models/methodological-document.yaml
+              examples:
+                Example 1:
+                  value:
+                    id: 0
+                    name: string
+                    organization:
+                      id: 0
+                      name: string
+                    posted_at: string
+                    file: string
+                    direction:
+                      id: 0
+                      name: string
+                    requisites: string
+                    is_acquainted: 0
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: ../models/errors/error-401.yaml
+              examples: {}
+        '404':
+          description: Not found
+          content:
+            application/json:
+              schema:
+                $ref: ../models/errors/error-404.yaml
+              examples: {}
+        '422':
+          description: Unprocessable entity
+          content:
+            application/json:
+              schema:
+                $ref: ../models/errors/error-422.yaml
+              examples: {}
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: ../models/errors/error-500.yaml
+              examples: {}
+      description: Изменение значения чек-бокса "Ознакомление" по Id
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                is_acquainted:
+                  type: integer
+                  example: 0
+                  minimum: 0
+                  maximum: 1
+                  description: Ознакомление
+              required:
+                - is_acquainted
+            examples:
+              Example 1:
+                value:
+                  is_acquainted: 0
+      tags:
+        - methodological-documents
+components:
+  parameters: {}
+  securitySchemes:
+    login:
+      type: http
+      scheme: basic
+      description: Базовая авторизация через битрикс. Нужна специальная доработка.
+  requestBodies: {}
+security:
+  - login: []
+tags:
+  - name: methodological-documents
